@@ -34,7 +34,7 @@ const loginSchema = signUpSchema.omit({ nickname: true });
 
 const AuthForm = ({ mode }: PageType) => {
   const router = useRouter();
-  const clientClient = createClient();
+  const supabaseClient = createClient();
   const schema = mode === 'signup' ? signUpSchema : loginSchema;
   const {
     register,
@@ -49,12 +49,11 @@ const AuthForm = ({ mode }: PageType) => {
   const onSubmit = async (formData: LoginType | SignUpType) => {
     switch (mode) {
       case 'signup': {
-        const { data, error } = await clientClient.auth.signUp({
+        const { error } = await supabaseClient.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: { data: { nickname: (formData as SignUpType).nickname } }
         });
-        console.log(data, error);
         if (error) {
           return window.alert('회원가입 실패');
         }
@@ -62,11 +61,10 @@ const AuthForm = ({ mode }: PageType) => {
         return;
       }
       case 'login': {
-        const { data, error } = await clientClient.auth.signInWithPassword({
+        const { error } = await supabaseClient.auth.signInWithPassword({
           email: formData.email,
           password: formData.password
         });
-        console.log(data);
         if (error) {
           return window.alert('로그인 실패');
         }
