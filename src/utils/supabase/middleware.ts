@@ -40,13 +40,14 @@ export const updateSession = async (request: NextRequest) => {
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser(); // 세션이 만료된 경우 자동 갱신(현재 사용자 정보를 가져옴)
-
     // protected routes
     // 보호된 경로에 접근 시 사용자 에러 발생 시 리다이렉트
-    if (request.nextUrl.pathname.startsWith('/protected') && user.error) {
-      return NextResponse.redirect(new URL('/sign-in', request.url));
+    if (request.nextUrl.pathname.includes('/community') || request.nextUrl.pathname.includes('/detail') || user.error) {
+      return NextResponse.redirect(new URL('/login', request.url));
     }
-
+    console.log(
+      request.nextUrl.pathname.includes('/community') || (request.nextUrl.pathname.includes('/detail') && user.error)
+    );
     return response;
   } catch (e) {
     // If you are here, a Supabase client could not be created!
