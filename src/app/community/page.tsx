@@ -1,6 +1,10 @@
+import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 
-const Communitypage = () => {
+const Communitypage = async () => {
+  const serverClient = createClient();
+  const { data } = await serverClient.from('Post').select();
+  console.log('data', data);
   return (
     <main>
       <section className="flex flex-col">
