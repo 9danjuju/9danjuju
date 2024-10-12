@@ -1,9 +1,9 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { z } from 'zod';
 
 type PageType = {
   mode: 'login' | 'signup';
@@ -55,7 +55,11 @@ const AuthForm = ({ mode }: PageType) => {
           options: { data: { nickname: (formData as SignUpType).nickname } }
         });
         console.log(data, error);
-        break;
+        if (error) {
+          return window.alert('회원가입 실패');
+        }
+        router.push('/');
+        return;
       }
       case 'login': {
         const { data, error } = await clientClient.auth.signInWithPassword({
@@ -63,7 +67,11 @@ const AuthForm = ({ mode }: PageType) => {
           password: formData.password
         });
         console.log(data);
-        break;
+        if (error) {
+          return window.alert('로그인 실패');
+        }
+        router.push('/');
+        return;
       }
       default:
         return;
