@@ -48,7 +48,7 @@ const PostEditor = () => {
     <form onSubmit={handleSubmit}>
       <input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
       <Editor
-        initialValue="" // 초기값
+        initialValue=" " // 초기값
         height="400px" // 높이
         initialEditType="wysiwyg" // 초기 편집 유형
         useCommandShortcut={true} // 키보드 단축기 사용 여부
