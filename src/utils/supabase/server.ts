@@ -23,3 +23,5 @@ export const createClient = () => {
     }
   });
 };
+
+export const serverClient = createClient();

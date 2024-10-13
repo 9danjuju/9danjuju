@@ -1,12 +1,11 @@
 'use client';
-import { createClient } from '@/utils/supabase/client';
+import { browserClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import SearchBar from '../SearchBar';
 
 const Header = () => {
   const handleLogout = async () => {
-    const clientClient = createClient();
-    const { error } = await clientClient.auth.signOut();
+    const { error } = await browserClient.auth.signOut();
     if (error) {
       console.error(error);
     }
