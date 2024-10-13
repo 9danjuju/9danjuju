@@ -1,35 +1,29 @@
-import { createClient } from '@/utils/supabase/server';
-import Link from 'next/link';
+import CommunityList from '@/components/community/CommunityList';
+import { getPosts } from '@/utils/supabase/posts';
+
+// import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 const Communitypage = async () => {
-  const serverClient = createClient();
-  const { data } = await serverClient.from('Post').select();
-  console.log('data', data);
+  // const queryClient = new QueryClient();
+
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['posts'],
+  //   queryFn: () => getPosts()
+  // });
+
+  const posts = await getPosts();
+
   return (
-    <main>
+    // <HydrationBoundary state={dehydrate(queryClient)}>
+    //     </HydrationBoundary>
+    <div className="w-full mx-auto">
       <section className="flex flex-col">
         <h1>자유 게시판</h1>
         <hr />
-        <div>
-          <ul>
-            <div className="flex flex-row justify-between">
-              <p>제목</p>
-              <p>작성자</p>
-              <p>작성일</p>
-            </div>
-            <li className="flex flex-row justify-between">
-              <Link href="/community/1">
-                <p>제목이요</p>
-              </Link>
-              <p>작성자요</p>
-              <p>작성일이요</p>
-            </li>
-            <li></li>
-          </ul>
-        </div>
-        <button>글 작성</button>
+        <CommunityList posts={posts} />
       </section>
-    </main>
+      <button>글 작성</button>
+    </div>
   );
 };
 
