@@ -26,7 +26,7 @@ const Comment = () => {
     getComments();
   }, []);
 
-  // 댓글 입력
+  // 댓글 추가
   const onSumbitHandler = async () => {
     const { data, error } = await browserClient.from('Comments').insert({ comment: comment }).select();
 
@@ -42,7 +42,7 @@ const Comment = () => {
   // 댓글 삭제
   // TODO: 댓글 작성자 id와 로그인한 유저의 id 같을 시 삭제
   const onDeleteHandelr = async (id: string) => {
-    const { data, error } = await browserClient.from('Comments').delete().eq('id', id).select();
+    const { data, error } = await browserClient.from('Comments').delete().eq('id', id);
 
     if (data) {
       console.log('삭제 완료!');
@@ -50,15 +50,7 @@ const Comment = () => {
       console.log('삭제 실패 => ', error);
     }
 
-    const filteredComments = comments.filter((comment) => {
-      if (comment.id === id) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-    console.log(comments);
-
+    const filteredComments = comments.filter((comment) => comment.id !== id);
     setComments(filteredComments);
   };
 
