@@ -11,16 +11,15 @@ const Comment = () => {
   const [comments, setComments] = useState<CommentType[]>([]);
 
   // 댓글 조회
-  async function getComments() {
-    // 전체 타입을 수파베이스 클라이언트에 넣어줬기 때문에 추가로 타입을 지정할 필요 없음
+  const getComments = async () => {
     const { data, error } = await browserClient.from('Comments').select('*');
-    console.log(data);
+
     if (data) {
       setComments(data);
     } else {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getComments();
