@@ -39,6 +39,29 @@ const Comment = () => {
     getComments();
   };
 
+  // 댓글 삭제
+  // TODO: 댓글 작성자 id와 로그인한 유저의 id 같을 시 삭제
+  const onDeleteHandelr = async (id: string) => {
+    const { data, error } = await browserClient.from('Comments').delete().eq('id', id).select();
+
+    if (data) {
+      console.log('삭제 완료!');
+    } else {
+      console.log('삭제 실패 => ', error);
+    }
+
+    const filteredComments = comments.filter((comment) => {
+      if (comment.id === id) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    console.log(comments);
+
+    setComments(filteredComments);
+  };
+
   return (
     <div className="px-10">
       <div>
@@ -57,12 +80,14 @@ const Comment = () => {
         </button>
         <ul>
           {comments.map((comment) => (
-            <li key={comment.comment_id}>
+            <li key={comment.id}>
               <div className="flex gap-5">
                 <p>{comment.comment}</p>
                 <p>by {comment.userNickname}</p>
                 <button className="border border-spacing-1 px-4">수정</button>
-                <button className="border border-spacing-1 px-4">삭제</button>
+                <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
+                  삭제
+                </button>
               </div>
             </li>
           ))}
