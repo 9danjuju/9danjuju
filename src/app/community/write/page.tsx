@@ -1,5 +1,3 @@
-'use client';
-
 import NoSsrEditor from '@/components/community/NoSsrEditor';
 
 const CommunityWritepage = () => {

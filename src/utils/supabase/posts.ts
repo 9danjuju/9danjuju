@@ -1,6 +1,6 @@
 import { Post } from '@/types/post-types';
 import { createClient } from './server';
-import browserClient from './client';
+import { browserClient } from './client';
 
 export const getPosts = async (): Promise<Post[]> => {
   const serverClient = createClient();
@@ -12,7 +12,7 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 export const addPost = async (post: Post) => {
-  const { data, error } = await browserClient.from('Post').insert({ post });
+  const { data, error } = await browserClient.from('Post').insert({ ...post });
 
   if (error) throw new Error('게시글 작성에 실패했습니다.');
 
