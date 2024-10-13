@@ -1,8 +1,8 @@
-import { Post } from '@/types/post-types';
 import { createClient } from './server';
-import { browserClient } from './client';
+import browserClient from './client';
+import { TablesInsert } from '../../../database.types';
 
-export const getPosts = async (): Promise<Post[]> => {
+export const getPosts = async () => {
   const serverClient = createClient();
   const { data, error } = await serverClient.from('Post').select();
 
@@ -11,7 +11,7 @@ export const getPosts = async (): Promise<Post[]> => {
   return data;
 };
 
-export const addPost = async (post: Post) => {
+export const addPost = async (post: TablesInsert<'Post'>) => {
   const { data, error } = await browserClient.from('Post').insert({ ...post });
 
   if (error) throw new Error('게시글 작성에 실패했습니다.');

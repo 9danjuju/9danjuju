@@ -1,10 +1,11 @@
 'use client';
-import { Post } from '@/types/post-types';
+
 // import { usePostQuery } from '@/query/usePostQuery';
 import Link from 'next/link';
+import { Tables } from '../../../database.types';
 
 interface CommunityListPorps {
-  posts: Post[];
+  posts: Tables<'Post'>[];
 }
 
 const CommunityList = ({ posts }: CommunityListPorps) => {
