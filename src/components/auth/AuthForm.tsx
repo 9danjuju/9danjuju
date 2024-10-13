@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+import { browserClient } from '@/utils/supabase/client';
 import { z } from 'zod';
 
 type PageType = {
@@ -34,7 +34,6 @@ const loginSchema = signUpSchema.omit({ nickname: true });
 
 const AuthForm = ({ mode }: PageType) => {
   const router = useRouter();
-  const supabaseClient = createClient();
   const schema = mode === 'signup' ? signUpSchema : loginSchema;
   const {
     register,
@@ -49,7 +48,7 @@ const AuthForm = ({ mode }: PageType) => {
   const onSubmit = async (formData: LoginType | SignUpType) => {
     switch (mode) {
       case 'signup': {
-        const { error } = await supabaseClient.auth.signUp({
+        const { error } = await browserClient.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: { data: { nickname: (formData as SignUpType).nickname } }
@@ -61,7 +60,7 @@ const AuthForm = ({ mode }: PageType) => {
         return;
       }
       case 'login': {
-        const { error } = await supabaseClient.auth.signInWithPassword({
+        const { error } = await browserClient.auth.signInWithPassword({
           email: formData.email,
           password: formData.password
         });
