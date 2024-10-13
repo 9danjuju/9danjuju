@@ -9,6 +9,7 @@ type CommentType = Tables<'Comments'>;
 
 const Comment = () => {
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [comment, setComment] = useState<string>('');
 
   // 댓글 조회
   const getComments = async () => {
@@ -25,19 +26,43 @@ const Comment = () => {
     getComments();
   }, []);
 
+  // 댓글 입력
+  const onSumbitHandler = async () => {
+    const { data, error } = await browserClient.from('Comments').insert({ comment: comment }).select();
+
+    if (data) {
+      setComments((prev) => [...prev, ...data]);
+    } else {
+      console.log(error);
+    }
+
+    getComments();
+  };
+
   return (
     <div className="px-10">
       <div>
         <h1>댓글</h1>
         {/*TODO: 로그인 여부에 따라 input 노출 설정 */}
-        <input className="border border-spacing-1" placeholder="댓글을 입력해주세요." />
-        <button className="border border-spacing-1 px-4">댓글 입력</button>
+        <input
+          className="border border-spacing-1"
+          placeholder="댓글을 입력해주세요."
+          value={comment}
+          onChange={(e) => {
+            setComment(e.target.value);
+          }}
+        />
+        <button className="border border-spacing-1 px-4" onClick={onSumbitHandler}>
+          댓글 입력
+        </button>
         <ul>
           {comments.map((comment) => (
             <li key={comment.comment_id}>
               <div className="flex gap-5">
                 <p>{comment.comment}</p>
                 <p>by {comment.userNickname}</p>
+                <button className="border border-spacing-1 px-4">수정</button>
+                <button className="border border-spacing-1 px-4">삭제</button>
               </div>
             </li>
           ))}
