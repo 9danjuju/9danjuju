@@ -2,7 +2,7 @@
 
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import { TablesInsert, TablesUpdate } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
@@ -14,6 +14,25 @@ const PostEditor = ({ postData, isEdit = false }: DynamicPostEditorProps) => {
 
   const [title, setTitle] = useState(postData?.title || '');
   const [content, setContent] = useState(postData?.content || '');
+  const [userId, setUserId] = useState(postData?.user_id || '');
+  const [userNickname, setUserNickname] = useState(postData?.userNickname || '');
+
+  useEffect(() => {
+    if (!isEdit) {
+      getUserInfo();
+    }
+  }, [isEdit]);
+
+  const getUserInfo = async () => {
+    const { data } = await browserClient.auth.getUser();
+    console.log('data', data);
+
+    const getUserNickname = await data.user?.user_metadata.nickname;
+    const getUserId = await data.user?.user_metadata.sub;
+
+    setUserNickname(getUserNickname);
+    setUserId(getUserId);
+  };
 
   const editorRef = useRef<Editor>(null);
 
@@ -39,8 +58,8 @@ const PostEditor = ({ postData, isEdit = false }: DynamicPostEditorProps) => {
       title,
       content,
       date: new Date().toISOString(),
-      user_id: 'cb611639-6049-4476-b98a-8fe818de52b5',
-      userNickname: '하이'
+      user_id: userId,
+      userNickname: userNickname
     };
 
     const { data } = await browserClient.from('Post').insert(newPost).select();
