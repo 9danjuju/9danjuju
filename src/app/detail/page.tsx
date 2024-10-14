@@ -1,12 +1,7 @@
-import Comment from '@/components/detail/Comment';
 import React from 'react';
 
 const page = () => {
-  return (
-    <div>
-      <Comment />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default page;
