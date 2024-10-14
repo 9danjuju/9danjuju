@@ -10,6 +10,16 @@ type CommentType = Tables<'Comments'>;
 const Comment = () => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [comment, setComment] = useState<string>('');
+  const [userNickname, setUserNickname] = useState<string>('');
+
+  // 현재 유저 정보
+  const getUserInfo = async () => {
+    const { data } = await browserClient.auth.getUser();
+    const response = await data.user?.user_metadata.nickname;
+    console.log(response);
+    setUserNickname(response);
+    return response;
+  };
 
   // 댓글 조회
   const getComments = async () => {
@@ -24,11 +34,12 @@ const Comment = () => {
 
   useEffect(() => {
     getComments();
+    getUserInfo();
   }, []);
 
   // 댓글 추가
   const onSumbitHandler = async () => {
-    const { data, error } = await browserClient.from('Comments').insert({ comment: comment }).select('*');
+    const { data, error } = await browserClient.from('Comments').insert({ comment: comment, userNickname }).select('*');
 
     if (data) {
       setComments((prev) => [...prev, ...data]);
