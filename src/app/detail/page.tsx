@@ -1,18 +1,21 @@
 'use client';
+import { Field } from '@/components/detail/Field';
+import { AllMatchType, MatchDetailType, SppositionType, UserInfoType } from '@/types/matchType';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 export default function page() {
-  const [isToggle, setIsToggle] = useState([]);
+  const [isToggle, setIsToggle] = useState<boolean[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [userMatchData, setUserMatchData] = useState([]);
-  const [matchDetailData, setMatchDetailData] = useState([]);
-  const [userData, setUserData] = useState(null);
-  const [ouid, setOuid] = useState(null);
+  const [userMatchData, setUserMatchData] = useState<string[]>([]);
+  const [matchDetailData, setMatchDetailData] = useState<MatchDetailType[]>([]);
+  const [userData, setUserData] = useState<UserInfoType | null>(null);
+  const [ouid, setOuid] = useState<string | null>(null);
   const [matchType, setMatchType] = useState(50); // 공식경기 : 50
   const [offset, setOffset] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [playerNames, setPlayerNames] = useState([]);
+  const [playerNames, setPlayerNames] = useState<{ id: number; name: string }[]>([]);
+  const [playerPosition, setPlayerPosition] = useState<SppositionType[]>([]);
 
   const searchParams = useSearchParams();
   const nickname = searchParams.get('nickname');
@@ -35,7 +38,7 @@ export default function page() {
   };
 
   // 유저 매치 정보
-  const fetchUserMatchData = async (ouid: string, matchType, offset) => {
+  const fetchUserMatchData = async (ouid: string, matchType: number, offset: number) => {
     try {
       const res = await fetch('/api/usermatch/detail', {
         method: 'POST',
@@ -48,7 +51,7 @@ export default function page() {
       if (!res.ok) {
         throw new Error(`서버 응답 없음: ${res.status}`);
       }
-      const userMatchData = await res.json();
+      const userMatchData: AllMatchType = await res.json();
       setUserMatchData((prev) => [...prev, ...userMatchData.map((matchId: string) => matchId)]);
       console.log('유저매치데이터!!!!!!', userMatchData);
       setIsToggle((prev) => [...prev, ...new Array(userMatchData.length).fill(true)]);
@@ -75,11 +78,11 @@ export default function page() {
         throw new Error(`서버 응답 없음: ${res.status}`);
       }
 
-      const newMatchDetailData = await res.json();
+      const newMatchDetailData: MatchDetailType[] = await res.json();
       console.log('매치 디테일 데이터!!!!!', newMatchDetailData);
       setMatchDetailData((prev) => {
         const addedDetailData = newMatchDetailData.filter(
-          (newDetail) => !prev.some((existedData) => existedData.matchId === newDetail.matchId)
+          (newDetail: { matchId: string }) => !prev.some((existedData) => existedData.matchId === newDetail.matchId)
         );
         return [...prev, ...addedDetailData];
       });
@@ -107,11 +110,30 @@ export default function page() {
     }
   };
 
+  // 선수 포지션 정보
+  const fetchPlayerPosition = async () => {
+    try {
+      const res = await fetch(`/api/playerposition/detail`);
+      if (!res.ok) {
+        throw new Error(`서버 응답 없음: ${res.status}`);
+      }
+      const playerPositionData: SppositionType[] = await res.json();
+      console.log('불러온 포지션 데이터:', playerPositionData);
+      setPlayerPosition(playerPositionData);
+    } catch (error) {
+      console.error('선수 포지션 데이터 오류', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // 유저 데이터, 선수 이름
   useEffect(() => {
     if (nickname) {
       fetchUserData(nickname);
       fetchPlayerNames();
+      fetchPlayerPosition();
+      console.log('포지션 데이터:', playerPosition);
     }
   }, []);
 
@@ -133,7 +155,7 @@ export default function page() {
   if (isLoading) return <div className="flex justify-center items-center text-2xl">전적을 불러오고 있습니다....✨</div>;
 
   // 토글
-  const toggleDetail = (index) => {
+  const toggleDetail = (index: number) => {
     setIsToggle((prev) => prev.map((toggle, i) => (i !== index ? toggle : !toggle)));
   };
 
@@ -143,9 +165,15 @@ export default function page() {
   });
 
   // 매치 디테일 데이터의 spId로 선수 이름 가져오기
-  const getPlayerName = (spId) => {
+  const getPlayerName = (spId: number) => {
     const player = playerNames.find((pl) => Number(pl.id) === Number(spId));
     return player ? player.name : '선수 이름 없음';
+  };
+
+  // 매치 디테일 데이터의 spPosition으로 선수 포지션 가져오기
+  const getPlayerPosition = (spPosition: number) => {
+    const positionName = playerPosition.find((pp) => pp.spposition === spPosition);
+    return positionName ? positionName.desc : '포지션 이름 없음';
   };
 
   // 매치 타입별 전적
@@ -154,7 +182,10 @@ export default function page() {
     setUserMatchData([]);
     setMatchDetailData([]);
     setOffset(0);
-    fetchUserMatchData(ouid, matchType, 0);
+    setIsToggle([]);
+    if (ouid) {
+      fetchUserMatchData(ouid, matchType, 0);
+    }
   };
 
   // 더보기
@@ -164,6 +195,7 @@ export default function page() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full mb-5">
+      <Field />
       <div className="bg-gray-200 flex justify-center items-center m-2 p-5 max-w-3xl w-full mx-auto">
         <div className="mr-5">사진</div>
         <div className="flex flex-col items-center">
@@ -226,21 +258,16 @@ export default function page() {
                 )}
               </div>
               <div className="flex justify-center flex-grow text-xl">
-                {matchDetail && matchDetail.matchInfo && matchDetail.matchInfo.length > 1 ? (
-                  <span>
-                    {matchDetail.matchInfo[0].nickname} {matchDetail.matchInfo[0].shoot.goalTotal} :
-                  </span>
-                ) : null}
-
-                {matchDetail && matchDetail.matchInfo && matchDetail.matchInfo.length > 1 ? (
-                  <span>
-                    {matchDetail.matchInfo[1].shoot.goalTotal}
-                    {matchDetail.matchInfo[1].nickname}
-                  </span>
-                ) : (
+                {matchDetail?.matchInfo?.length > 1 ? (
                   <>
-                    <span>매치 상대 정보 없음</span>
+                    <span>{matchDetail.matchInfo[0].nickname}</span>
+                    <span className="mx-2">
+                      {matchDetail.matchInfo[0].shoot.goalTotal} : {matchDetail.matchInfo[1].shoot.goalTotal}
+                    </span>
+                    <span>{matchDetail.matchInfo[1].nickname}</span>
                   </>
+                ) : (
+                  <span>매치 상대 정보 없음</span>
                 )}
               </div>
               <div>
@@ -262,17 +289,57 @@ export default function page() {
                 </nav>
                 <div className="bg-green-400 flex flex-row justify-between m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
                   <div className="flex-1 flex flex-col items-start">
-                    {matchDetail.matchInfo[0].player.map((player, index) => (
-                      <span key={index}>{getPlayerName(player.spId)}</span>
-                    ))}
+                    {matchDetail.matchInfo[0].player
+                      .filter((player) => player.status.spRating > 0)
+                      .map((player, index) => (
+                        <span key={index}>
+                          <Image
+                            className="rounded-md object-scale-down"
+                            width={64}
+                            height={64}
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${player.spId}.png`}
+                            onError={() => console.log('이미지 로드에 실패했습니다.')}
+                            alt={String(player.spId)}
+                          />
+                          {player.spGrade}등급/포지션:{getPlayerPosition(player.spPosition)}/평점:
+                          {player.status.spRating}
+                          /패스성공률:{Math.round((player.status.passSuccess / player.status.passTry) * 100)}%/득점:
+                          {player.status.goal}
+                          {getPlayerName(player.spId)}
+                        </span>
+                      ))}
                   </div>
-
-                  <div className="flex-1 flex flex-col items-end">
-                    {matchDetail.matchInfo[1].player.map((player, index) => (
-                      <span key={index}>{getPlayerName(player.spId)}</span>
-                    ))}
+                  <div className="flex-1 flex flex-col items-end border-l-2">
+                    {matchDetail.matchInfo[1].player
+                      .filter((player) => player.status.spRating > 0)
+                      .map((player, index) => (
+                        <span key={index}>
+                          <Image
+                            className="rounded-md object-scale-down"
+                            width={64}
+                            height={64}
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${player.spId}.png`}
+                            onError={() => console.log('이미지 로드에 실패했습니다.')}
+                            alt={String(player.spId)}
+                          />
+                          {player.spGrade}등급/포지션:{getPlayerPosition(player.spPosition)}/평점:
+                          {player.status.spRating}
+                          /패스성공률:{Math.round((player.status.passSuccess / player.status.passTry) * 100)}%/득점:
+                          {player.status.goal}
+                          {getPlayerName(player.spId)}
+                        </span>
+                      ))}
                   </div>
                 </div>
+                <div></div>
+                {/* <div className="bg-orange-400 flex flex-row justify-between m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
+                  여기스코어보드
+                  <div>
+                    <span>평균평점</span>
+                  </div>
+                </div> */}
               </div>
             ) : null}
           </div>

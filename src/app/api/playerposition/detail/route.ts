@@ -7,13 +7,13 @@ export async function GET(request: Request) {
     throw new Error('API키가 없습니다.');
   }
 
-  const apiUrlString = `https://open.api.nexon.com/static/fconline/meta/spid.json`;
+  const apiUrlString = `https://open.api.nexon.com/static/fconline/meta/spposition.json`;
   try {
     const res = await fetch(apiUrlString, { cache: 'no-store' });
 
     if (res.ok) {
-      const playerNameData = await res.json();
-      return NextResponse.json(playerNameData);
+      const playerPositionData = await res.json();
+      return NextResponse.json(playerPositionData);
     } else {
       return NextResponse.json({ error: 'API를 불러오지 못했습니다.' }, { status: res.status });
     }

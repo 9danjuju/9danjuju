@@ -1,3 +1,4 @@
+import { MatchDetailType } from '@/types/matchType';
 import { match } from 'assert';
 import { NextResponse } from 'next/server';
 
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
   // }
 
   try {
-    const matchDetailRes = await Promise.all(
+    const matchDetailRes: MatchDetailType[] = await Promise.all(
       matchIds.map(async (matchId) => {
         const apiUrlString = `https://open.api.nexon.com/fconline/v1/match-detail?matchid=${matchId}`;
         const res = await fetch(apiUrlString, {

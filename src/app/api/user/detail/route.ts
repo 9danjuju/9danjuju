@@ -1,3 +1,4 @@
+import { UserInfoType } from '@/types/matchType';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -38,7 +39,7 @@ export async function GET(request: Request) {
     });
 
     if (userDataRes.ok) {
-      const userData = await userDataRes.json();
+      const userData: UserInfoType = await userDataRes.json();
       return NextResponse.json(userData);
     } else {
       return NextResponse.json({ error: 'API를 불러오지 못했습니다.' }, { status: userDataRes.status });

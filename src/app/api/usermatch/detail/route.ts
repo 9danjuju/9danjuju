@@ -1,3 +1,4 @@
+import { AllMatchType } from '@/types/matchType';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     });
 
     if (res.ok) {
-      const userMatch_data = await res.json();
+      const userMatch_data: AllMatchType = await res.json();
       console.log('😀 userMatch_data', userMatch_data);
       return NextResponse.json(userMatch_data);
     } else {
