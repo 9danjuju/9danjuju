@@ -3,6 +3,7 @@
 import browserClient from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { Tables } from '../../../database.types';
+import { useParams } from 'next/navigation';
 
 // useState 타입
 type CommentType = Tables<'Comments'>;
@@ -11,14 +12,23 @@ const Comment = () => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [comment, setComment] = useState<string>('');
   const [userNickname, setUserNickname] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
+
+  // post ID 불러오기
+  const params = useParams();
+  const postId = params.id as string;
 
   // 현재 유저 정보
   const getUserInfo = async () => {
     const { data } = await browserClient.auth.getUser();
-    const response = await data.user?.user_metadata.nickname;
-    console.log(response);
-    setUserNickname(response);
-    return response;
+
+    const getUserNickname = await data.user?.user_metadata.nickname;
+    const getUserId = await data.user?.user_metadata.sub;
+
+    setUserNickname(getUserNickname);
+    setUserId(getUserId);
+
+    return getUserNickname;
   };
 
   // 댓글 조회
@@ -26,7 +36,8 @@ const Comment = () => {
     const { data, error } = await browserClient.from('Comments').select('*');
 
     if (data) {
-      setComments(data);
+      const res = data.filter((comment) => comment.post_id === postId);
+      setComments(res);
     } else {
       console.log(error);
     }
@@ -39,7 +50,10 @@ const Comment = () => {
 
   // 댓글 추가
   const onSumbitHandler = async () => {
-    const { data, error } = await browserClient.from('Comments').insert({ comment: comment, userNickname }).select('*');
+    const { data, error } = await browserClient
+      .from('Comments')
+      .insert({ comment: comment, userNickname, post_id: postId })
+      .select('*');
 
     if (data) {
       setComments((prev) => [...prev, ...data]);
@@ -52,7 +66,6 @@ const Comment = () => {
   };
 
   // 댓글 삭제
-  // TODO: 댓글 작성자 id와 로그인한 유저의 id 같을 시 삭제
   const onDeleteHandelr = async (id: string) => {
     const { data, error } = await browserClient.from('Comments').delete().eq('id', id).select('*');
 
@@ -67,7 +80,6 @@ const Comment = () => {
   };
 
   // 댓글 수정
-  // TODO: 댓글 작성자 id와 로그인한 유저의 id 같을 시 수정
   const onEditHandelr = async (id: string) => {
     console.log('댓글 id => ', id);
     const { data, error } = await browserClient
@@ -116,12 +128,20 @@ const Comment = () => {
                   <p>{comment.comment}</p>
                 </div>
                 <p>{comment.date}</p>
-                <button className="border border-spacing-1 px-4" onClick={() => onEditHandelr(comment.id)}>
-                  수정
-                </button>
-                <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
-                  삭제
-                </button>
+                {userId === comment.user_id ? (
+                  <button className="border border-spacing-1 px-4" onClick={() => onEditHandelr(comment.id)}>
+                    수정
+                  </button>
+                ) : (
+                  ''
+                )}
+                {userId === comment.user_id ? (
+                  <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
+                    삭제
+                  </button>
+                ) : (
+                  ''
+                )}
               </div>
             </li>
           ))}
