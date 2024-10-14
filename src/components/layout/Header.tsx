@@ -3,10 +3,13 @@
 import Link from 'next/link';
 import SearchBar from '../SearchBar';
 import browserClient from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
+  const router = useRouter();
   const handleLogout = async () => {
     const { error } = await browserClient.auth.signOut();
+    router.replace('/login');
     if (error) {
       console.error(error);
     }
