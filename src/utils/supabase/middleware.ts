@@ -41,7 +41,8 @@ export const updateSession = async (request: NextRequest) => {
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
     // protected routes
-    const isProtectedRoute = request.nextUrl.pathname.includes('/community/write');
+    const protectedRoutes = ['/mypage', '/community/write'];
+    const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
 
     if (isProtectedRoute && user.error) {
       return NextResponse.redirect(new URL('/login', request.url));
