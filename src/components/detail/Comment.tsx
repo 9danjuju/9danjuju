@@ -28,7 +28,7 @@ const Comment = () => {
 
   // 댓글 추가
   const onSumbitHandler = async () => {
-    const { data, error } = await browserClient.from('Comments').insert({ comment: comment }).select();
+    const { data, error } = await browserClient.from('Comments').insert({ comment: comment }).select('*');
 
     if (data) {
       setComments((prev) => [...prev, ...data]);
@@ -37,12 +37,13 @@ const Comment = () => {
     }
 
     getComments();
+    setComment('');
   };
 
   // 댓글 삭제
   // TODO: 댓글 작성자 id와 로그인한 유저의 id 같을 시 삭제
   const onDeleteHandelr = async (id: string) => {
-    const { data, error } = await browserClient.from('Comments').delete().eq('id', id);
+    const { data, error } = await browserClient.from('Comments').delete().eq('id', id).select('*');
 
     if (data) {
       console.log('삭제 완료!');
@@ -52,6 +53,31 @@ const Comment = () => {
 
     const filteredComments = comments.filter((comment) => comment.id !== id);
     setComments(filteredComments);
+  };
+
+  // 댓글 수정
+  // TODO: 댓글 작성자 id와 로그인한 유저의 id 같을 시 수정
+  const onEditHandelr = async (id: string) => {
+    console.log('댓글 id => ', id);
+    const { data, error } = await browserClient
+      .from('Comments')
+      .update({
+        comment: prompt('수정하기')
+      })
+      .eq('id', id)
+      .select();
+
+    console.log('comments => ', comments);
+    console.log('data =>', data);
+
+    if (!data || data.length === 0) {
+      console.log('수정된 데이터가 없습니다');
+      return;
+    }
+
+    const [update] = data;
+    const updatedList = comments.map((comment) => (comment.id === update.id ? update : comment));
+    setComments(updatedList);
   };
 
   return (
@@ -73,10 +99,15 @@ const Comment = () => {
         <ul>
           {comments.map((comment) => (
             <li key={comment.id}>
-              <div className="flex gap-5">
-                <p>{comment.comment}</p>
-                <p>by {comment.userNickname}</p>
-                <button className="border border-spacing-1 px-4">수정</button>
+              <div className="flex gap-5 ">
+                <div className="w-[500px]">
+                  <p className="text-md font-bold">{comment.userNickname}</p>
+                  <p>{comment.comment}</p>
+                </div>
+                <p>{comment.date}</p>
+                <button className="border border-spacing-1 px-4" onClick={() => onEditHandelr(comment.id)}>
+                  수정
+                </button>
                 <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
                   삭제
                 </button>
