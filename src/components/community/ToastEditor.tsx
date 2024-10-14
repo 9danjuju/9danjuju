@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic';
 
 const PostEditor = dynamic(() => import('./PostEditor'), { ssr: false });
 
-const NoSsrEditor = () => {
+const ToastEditor = () => {
   return <PostEditor />;
 };
 
-export default NoSsrEditor;
+export default ToastEditor;

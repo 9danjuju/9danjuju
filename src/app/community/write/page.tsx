@@ -1,10 +1,10 @@
 'use client';
-import NoSsrEditor from '@/components/community/NoSsrEditor';
+import ToastEditor from '@/components/community/ToastEditor';
 
 const CommunityWritepage = () => {
   return (
     <div className="w-[768px] m-auto">
-      <NoSsrEditor />
+      <ToastEditor />
     </div>
   );
 };
