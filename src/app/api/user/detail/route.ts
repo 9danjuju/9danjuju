@@ -1,14 +1,17 @@
-import { UserInfoType } from '@/types/matchType';
-import { NextResponse } from 'next/server';
+import { PlayerMatchDetailType } from '@/types/matchType';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const FIFA_API_KEY = process.env.NEXT_PUBLIC_FIFA_API_KEY as string;
 
   if (!FIFA_API_KEY) {
     throw new Error('API키가 없습니다.');
   }
 
-  const { searchParams } = new URL(request.url);
+  // const { searchParams } = new URL(request.url);
+  // const nickname = searchParams.get('nickname');
+
+  const searchParams = request.nextUrl.searchParams;
   const nickname = searchParams.get('nickname');
 
   if (!nickname) {
@@ -39,7 +42,7 @@ export async function GET(request: Request) {
     });
 
     if (userDataRes.ok) {
-      const userData: UserInfoType = await userDataRes.json();
+      const userData: PlayerMatchDetailType = await userDataRes.json();
       return NextResponse.json(userData);
     } else {
       return NextResponse.json({ error: 'API를 불러오지 못했습니다.' }, { status: userDataRes.status });

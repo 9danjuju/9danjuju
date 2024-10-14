@@ -5,7 +5,11 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-export default function page() {
+interface ParamsType {
+  nickname: string;
+}
+
+export default function Page({ params }: { params: ParamsType }) {
   const [isToggle, setIsToggle] = useState<boolean[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [userMatchData, setUserMatchData] = useState<string[]>([]);
@@ -23,17 +27,19 @@ export default function page() {
   // 유저정보
   const fetchUserData = async (nickname: string) => {
     try {
-      const res = await fetch(`/api/user/detail?nickname=${nickname}`);
+      const res = await fetch(`/api/user/detail?nickname=${params.nickname}`);
       if (!res.ok) {
         throw new Error(`서버 응답 없음: ${res.status}`);
       }
       const userRes = await res.json();
       setUserData(userRes);
       setOuid(userRes.ouid);
+      setIsLoading(false);
     } catch (error) {
       console.error('유저정보오류', error);
-    } finally {
-      setIsLoading(false);
+      // } finally {
+      //   // setIsLoading(false);
+      // }
     }
   };
 
@@ -129,12 +135,13 @@ export default function page() {
 
   // 유저 데이터, 선수 이름
   useEffect(() => {
-    if (nickname) {
-      fetchUserData(nickname);
+    if (params.nickname) {
+      fetchUserData(params.nickname);
       fetchPlayerNames();
       fetchPlayerPosition();
       console.log('포지션 데이터:', playerPosition);
     }
+    console.log(params);
   }, []);
 
   // 유처 매치 데이터
