@@ -14,10 +14,10 @@ import browserClient from '@/utils/supabase/client';
 
 type PostArray = Tables<'Post'>;
 
-const MyPosts = () => {
+const MyPostsList = () => {
   const [posts, setPosts] = useState<PostArray[]>([]);
 
-  const getMyPosts = async () => {
+  const getPosts = async () => {
     const user = await browserClient.auth.getUser();
     const userId = user.data.user?.id;
 
@@ -37,7 +37,7 @@ const MyPosts = () => {
 
   useEffect(() => {
     // getUserInfo();
-    getMyPosts();
+    getPosts();
   }, []);
 
   return (
@@ -63,4 +63,4 @@ const MyPosts = () => {
   );
 };
 
-export default MyPosts;
+export default MyPostsList;
