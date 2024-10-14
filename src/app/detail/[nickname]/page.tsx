@@ -1,6 +1,5 @@
 'use client';
 
-import Field from '@/app/api/fff/page';
 import PlayerImage from '@/components/detail/PlayerImage';
 import { AllMatchType, MatchDetailType, SppositionType, UserInfoType } from '@/types/matchType';
 import Image from 'next/image';
@@ -324,7 +323,7 @@ export default function Page({ params }: { params: ParamsType }) {
                   ))}
                 </div>
                 <div></div>
-                <Field />
+                {/* <Field /> */}
                 {/* <div className="bg-orange-400 flex flex-row justify-between m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
                   여기스코어보드
                   <div>
