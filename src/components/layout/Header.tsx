@@ -1,5 +1,5 @@
 'use client';
-import { browserClient } from '@/utils/supabase/client';
+import browserClient from '@/utils/supabase/client';
 import Link from 'next/link';
 import SearchBar from '../SearchBar';
 

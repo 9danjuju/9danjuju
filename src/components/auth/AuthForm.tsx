@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { browserClient } from '@/utils/supabase/client';
+import browserClient from '@/utils/supabase/client';
 import { z } from 'zod';
 
 type PageType = {
