@@ -1,5 +1,5 @@
 import CommunityList from '@/components/community/CommunityList';
-import EditDeleteButton from '@/components/community/EditDeleteButton';
+import CommunityActionButton from '@/components/community/CommunityActionButton';
 
 import { serverClient } from '@/utils/supabase/server';
 
@@ -16,7 +16,7 @@ const Communitypage = async () => {
         <hr />
         <CommunityList posts={posts} />
       </section>
-      <EditDeleteButton mode="write" />
+      <CommunityActionButton mode="write" />
     </div>
   );
 };

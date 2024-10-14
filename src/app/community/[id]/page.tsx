@@ -1,4 +1,4 @@
-import EditDeleteButton from '@/components/community/EditDeleteButton';
+import CommunityActionButton from '@/components/community/CommunityActionButton';
 import browserClient from '@/utils/supabase/client';
 
 interface CommunityDetailPageProps {
@@ -20,7 +20,7 @@ const CommunityDetailpage = async ({ params }: CommunityDetailPageProps) => {
               <p>{postData.date}</p>| <p>{postData.userNickname}</p>
             </div>
 
-            <EditDeleteButton postId={postData.id} />
+            <CommunityActionButton postId={postData.id} />
           </div>
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.content }}></div>
