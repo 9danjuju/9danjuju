@@ -1,27 +1,10 @@
 'use client';
 
 import browserClient from '@/utils/supabase/client';
-import { User } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const Nickname = () => {
-  const [nickname, setNickname] = useState('');
+const Nickname = ({ nickname, setNickname }: { nickname: string; setNickname: Dispatch<SetStateAction<string>> }) => {
   const [input, setInput] = useState('');
-
-  // 현재 유저정보
-  const getUserInfo = async () => {
-    try {
-      const res = await browserClient.auth.getUser();
-      const data = res.data.user;
-      // console.log('user : ', res);
-
-      setNickname(data?.user_metadata.nickname);
-
-      return;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   // auth 닉네임 변경
   const handleSubmit = async (inputName: string) => {
@@ -29,17 +12,13 @@ const Nickname = () => {
       const { data } = await browserClient.auth.updateUser({
         data: { nickname: inputName }
       });
-
+      setNickname(input);
       alert('닉네임이 수정되었습니다.');
       return data;
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   return (
     <div>
