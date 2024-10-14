@@ -8,7 +8,6 @@ export async function POST(request: Request) {
     throw new Error('API키가 없습니다.');
   }
 
-  // const matchId = '6709239eae411d57aa9bd889';
   const { matchIds } = await request.json();
 
   if (!Array.isArray(matchIds) || matchIds.length === 0) {
@@ -28,10 +27,8 @@ export async function POST(request: Request) {
           }
         });
         if (!res.ok) {
-          throw new Error(`매치 아이디 ${matchId}에 대한 데이터가 없습니다.`);
+          throw new Error('매치 아이디에 대한 데이터가 없습니다.');
         }
-
-        // 각 matchId에 대한 응답을 JSON으로 변환
         return res.json();
       })
     );

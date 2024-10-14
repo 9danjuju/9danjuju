@@ -10,9 +10,9 @@ export async function POST(request: Request) {
   // const ouid = 'f06bcbffe4be5bafb43938902db2b355';
   // const { ouid } = useUserMatchStore.getState();
 
-  const { ouid, matchType } = await request.json();
+  const { ouid, matchType, offset } = await request.json();
 
-  const apiUrlString = `https://open.api.nexon.com/fconline/v1/user/match?ouid=${ouid}&matchtype=${matchType}&limit=10`;
+  const apiUrlString = `https://open.api.nexon.com/fconline/v1/user/match?ouid=${ouid}&matchtype=${matchType}&limit=2&offset=${offset}`;
   try {
     const res = await fetch(apiUrlString, {
       headers: {
