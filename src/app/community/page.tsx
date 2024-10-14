@@ -1,28 +1,22 @@
 import CommunityList from '@/components/community/CommunityList';
-import { getPosts } from '@/utils/supabase/posts';
+import EditDeleteButton from '@/components/community/EditDeleteButton';
 
-// import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { serverClient } from '@/utils/supabase/server';
 
 const Communitypage = async () => {
-  // const queryClient = new QueryClient();
+  const { data: posts, error } = await serverClient.from('Post').select();
+  if (error) throw new Error('게시물 목록을 불러오는데 실패했습니다.');
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: ['posts'],
-  //   queryFn: () => getPosts()
-  // });
-
-  const posts = await getPosts();
+  if (!posts) return <div>게시물이 없습니다.</div>;
 
   return (
-    // <HydrationBoundary state={dehydrate(queryClient)}>
-    //     </HydrationBoundary>
     <div className="w-full mx-auto">
       <section className="flex flex-col">
         <h1>자유 게시판</h1>
         <hr />
         <CommunityList posts={posts} />
       </section>
-      <button>글 작성</button>
+      <EditDeleteButton mode="write" />
     </div>
   );
 };
