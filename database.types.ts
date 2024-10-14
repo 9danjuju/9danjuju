@@ -15,7 +15,7 @@ export type Database = {
           date: string | null
           id: string
           post_id: string | null
-          user_id: string | null
+          user_id: string
           userNickname: string | null
         }
         Insert: {
@@ -23,7 +23,7 @@ export type Database = {
           date?: string | null
           id?: string
           post_id?: string | null
-          user_id?: string | null
+          user_id?: string
           userNickname?: string | null
         }
         Update: {
@@ -31,10 +31,18 @@ export type Database = {
           date?: string | null
           id?: string
           post_id?: string | null
-          user_id?: string | null
+          user_id?: string
           userNickname?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "Comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       Post: {
         Row: {
