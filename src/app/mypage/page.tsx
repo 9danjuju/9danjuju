@@ -2,9 +2,10 @@
 
 import Nickname from '@/components/mypage/Nickname';
 import Posts from '@/components/mypage/Posts';
+import browserClient from '@/utils/supabase/client';
 import { useState } from 'react';
 
-const page = () => {
+const Page = () => {
   const [mode, setMode] = useState('myPosts');
 
   return (
@@ -40,4 +41,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
