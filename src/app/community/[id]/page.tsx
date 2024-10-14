@@ -1,3 +1,4 @@
+import Comment from '@/components/comments/Comment';
 import CommunityActionButton from '@/components/community/CommunityActionButton';
 import browserClient from '@/utils/supabase/client';
 
@@ -25,6 +26,7 @@ const CommunityDetailpage = async ({ params }: CommunityDetailPageProps) => {
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.content }}></div>
       </section>
+      <Comment />
     </div>
   );
 };
