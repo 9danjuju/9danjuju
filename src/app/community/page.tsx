@@ -1,11 +1,30 @@
-import Comment from '@/components/detail/Comment';
+import CommunityList from '@/components/community/CommunityList';
+import { getPosts } from '@/utils/supabase/posts';
 
-const page = () => {
+// import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+
+const Communitypage = async () => {
+  // const queryClient = new QueryClient();
+
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['posts'],
+  //   queryFn: () => getPosts()
+  // });
+
+  const posts = await getPosts();
+
   return (
-    <div>
-      <Comment />
+    // <HydrationBoundary state={dehydrate(queryClient)}>
+    //     </HydrationBoundary>
+    <div className="w-full mx-auto">
+      <section className="flex flex-col">
+        <h1>자유 게시판</h1>
+        <hr />
+        <CommunityList posts={posts} />
+      </section>
+      <button>글 작성</button>
     </div>
   );
 };
 
-export default page;
+export default Communitypage;
