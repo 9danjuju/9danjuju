@@ -2,8 +2,8 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import browserClient from '@/utils/supabase/client';
 import { z } from 'zod';
+import browserClient from '@/utils/supabase/client';
 
 type PageType = {
   mode: 'login' | 'signup';
