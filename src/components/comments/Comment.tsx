@@ -14,6 +14,10 @@ const Comment = () => {
   const [userNickname, setUserNickname] = useState<string>('');
   const [userId, setUserId] = useState<string>('');
 
+  // 댓글 수정할 때의 상태 관리
+  const [editComment, setEditComment] = useState<string>('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+
   // post ID 불러오기
   const params = useParams();
   const postId = params.id as string;
@@ -79,19 +83,21 @@ const Comment = () => {
     setComments(filteredComments);
   };
 
+  // 댓글 수정 시작
+  const startEditing = (id: string, currentComment: string) => {
+    setEditingId(id); // 수정할 댓글의 ID 설정
+    setEditComment(currentComment); // 현재 댓글을 상태에 저장
+  };
+
   // 댓글 수정
   const onEditHandelr = async (id: string) => {
-    console.log('댓글 id => ', id);
     const { data, error } = await browserClient
       .from('Comments')
       .update({
-        comment: prompt('수정하기')
+        comment: editComment // 수정된 댓글 내용
       })
       .eq('id', id)
       .select();
-
-    console.log('comments => ', comments);
-    console.log('data =>', data);
 
     if (!data || data.length === 0) {
       console.log('수정된 데이터가 없습니다');
@@ -101,6 +107,8 @@ const Comment = () => {
     const [update] = data;
     const updatedList = comments.map((comment) => (comment.id === update.id ? update : comment));
     setComments(updatedList);
+    setEditingId(null);
+    setEditComment('');
   };
 
   return (
@@ -121,29 +129,48 @@ const Comment = () => {
         </button>
         <ul>
           {comments.map((comment) => (
-            <li key={comment.id}>
-              <div className="flex gap-5 ">
-                <div className="w-[500px]">
-                  <p className="text-md font-bold">{comment.userNickname}</p>
-                  <p>{comment.comment}</p>
+            <div key={comment.id}>
+              {editingId === comment.id ? (
+                <div>
+                  <input
+                    placeholder="수정할 내용을 입력해주세요."
+                    type="text"
+                    value={editComment}
+                    onChange={(e) => setEditComment(e.target.value)}
+                  />
+                  <button
+                    onClick={() => {
+                      onEditHandelr(comment.id);
+                    }}
+                  >
+                    수정 완료
+                  </button>
                 </div>
-                <p>{comment.date}</p>
-                {userId === comment.user_id ? (
-                  <button className="border border-spacing-1 px-4" onClick={() => onEditHandelr(comment.id)}>
-                    수정
-                  </button>
-                ) : (
-                  ''
-                )}
-                {userId === comment.user_id ? (
-                  <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
-                    삭제
-                  </button>
-                ) : (
-                  ''
-                )}
-              </div>
-            </li>
+              ) : (
+                <div className="flex gap-5 ">
+                  <div className="w-[500px]">
+                    <p className="text-md font-bold">{comment.userNickname}</p>
+                    <p>{comment.comment}</p>
+                  </div>
+                  <p>{comment.date}</p>
+                  {userId === comment.user_id ? (
+                    <>
+                      <button
+                        className="border border-spacing-1 px-4"
+                        onClick={() => startEditing(comment.id, comment.comment)}
+                      >
+                        수정
+                      </button>
+                      <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
+                        삭제
+                      </button>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              )}
+            </div>
           ))}
         </ul>
       </div>
