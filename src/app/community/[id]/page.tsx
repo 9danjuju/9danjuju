@@ -1,4 +1,4 @@
-import Comment from '@/components/detail/Comment';
+import Comment from '@/components/comments/Comment';
 
 const CommunityDetailpage = () => {
   return (
