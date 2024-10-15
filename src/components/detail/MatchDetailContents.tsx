@@ -3,6 +3,7 @@
 import { DefenceType, PassingType, PlayerMatchDetailType, ShootType } from '@/types/matchType';
 import { useState } from 'react';
 import DetailGraph from './DetailGraph';
+import MatchRateDetail from './MatchRateDetail';
 
 export type DetailButtonsType = Record<'rate' | 'shoot' | 'pass' | 'defence', '평점' | '슈팅' | '패스' | '수비'>;
 export type DetailButtonsKeysType = keyof DetailButtonsType;
@@ -14,7 +15,7 @@ const DETAIL_BUTTONS: DetailButtonsType = {
 } as const;
 
 const MatchDetailContents = ({ matchInfo }: { matchInfo: PlayerMatchDetailType[] }) => {
-  const [detailType, setDetailType] = useState<DetailButtonsKeysType>('shoot');
+  const [detailType, setDetailType] = useState<DetailButtonsKeysType>('rate');
   const handleDetailTypeButton = (key: DetailButtonsKeysType) => {
     setDetailType(key);
   };
@@ -34,21 +35,21 @@ const MatchDetailContents = ({ matchInfo }: { matchInfo: PlayerMatchDetailType[]
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-between items-center gap-10">
+      <div className="bg-pink-400 flex items-center justify-between m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
         {Object.entries(DETAIL_BUTTONS).map(([key, value]) => {
           return (
-            <button
-              key={key}
-              className="bg-slate-400"
-              onClick={() => handleDetailTypeButton(key as DetailButtonsKeysType)}
-            >
+            <button key={key} onClick={() => handleDetailTypeButton(key as DetailButtonsKeysType)}>
               {value}
             </button>
           );
         })}
       </div>
       <div className="w-full border-2 border-solid rounded-md border-gray-500 flex flex-col justify-center items-center">
-        {detailType === 'rate' ? null : <DetailGraph data={getMatchInfoWithDetailType(matchInfo)} type={detailType} />}
+        {detailType === 'rate' ? (
+          <MatchRateDetail data={matchInfo} />
+        ) : (
+          <DetailGraph data={getMatchInfoWithDetailType(matchInfo)} type={detailType} />
+        )}
       </div>
     </div>
   );
