@@ -115,19 +115,30 @@ const Comment = () => {
     <div className=" w-full px-10 bg-neutral-100 p-2 grid place-items-center">
       <div>
         <h1 className="text-start">댓글</h1>
-        {/*TODO: 로그인 여부에 따라 input 노출 설정 */}
-        <div>
-          <textarea
-            className="w-[900px] h-[100px] border border-spacing-1 resize-none"
-            placeholder="댓글을 입력해주세요."
-            value={comment}
-            onChange={(e) => {
-              setComment(e.target.value);
-            }}
-          />
-          <button className="w-[100px] h-[100px] border border-spacing-1 px-4" onClick={onSumbitHandler}>
-            댓글 입력
-          </button>
+        <div className="flex items-center mb-5 mt-2">
+          {userId ? (
+            <>
+              <textarea
+                className="w-[900px] h-[100px] border border-spacing-1 resize-none"
+                placeholder="댓글을 입력해주세요."
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4" onClick={onSumbitHandler}>
+                댓글 입력
+              </button>
+            </>
+          ) : (
+            <>
+              <textarea
+                className="w-[900px] h-[100px] border border-spacing-1 resize-none"
+                placeholder="로그인 후 작성 가능합니다."
+              />
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4">로그인</button>
+            </>
+          )}
         </div>
         <div>
           {comments.map((comment) => {
@@ -140,7 +151,7 @@ const Comment = () => {
                 {editingId === comment.id ? (
                   <div className="my-3">
                     <textarea
-                      className="w-[800px] h-auto border border-spacing-1 resize-none"
+                      className="w-[960px] h-auto border border-spacing-1 resize-none pr-5"
                       placeholder="수정할 내용을 입력해주세요."
                       value={editComment}
                       onChange={(e) => setEditComment(e.target.value)}
