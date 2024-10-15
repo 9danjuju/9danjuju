@@ -4,6 +4,7 @@ import browserClient from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { Tables } from '../../../database.types';
 import { useParams } from 'next/navigation';
+import { createUserStore } from '@/userStore';
 
 // useState 타입
 type CommentType = Tables<'Comments'>;
@@ -22,18 +23,27 @@ const Comment = () => {
   const params = useParams();
   const postId = params.id as string;
 
-  // 현재 유저 정보
+  // 현재 유저 정보(zustand 사용 전)
   const getUserInfo = async () => {
     const { data } = await browserClient.auth.getUser();
-
     const getUserNickname = await data.user?.user_metadata.nickname;
     const getUserId = await data.user?.user_metadata.sub;
 
     setUserNickname(getUserNickname);
     setUserId(getUserId);
-
-    return getUserNickname;
   };
+
+  // =====================================================================
+  // 현재 유저 정보(zustand 받아오기 진행 중)
+  // const { userInfo } = createUserStore();
+
+  // const getUserNickname = userInfo.nickname as string;
+  // const getUserId = userInfo.id;
+
+  // console.log('userInfo => ', userInfo);
+  // console.log('id => ', userInfo.id);
+  // console.log('nickname => ', userInfo.nickname);
+  // console.log('email => ', userInfo.email);
 
   // 댓글 조회
   const getComments = async () => {
@@ -112,67 +122,82 @@ const Comment = () => {
   };
 
   return (
-    <div className="px-10">
+    <div className=" w-full px-10 bg-neutral-100 p-2 grid place-items-center">
       <div>
-        <h1>댓글</h1>
-        {/*TODO: 로그인 여부에 따라 input 노출 설정 */}
-        <input
-          className="border border-spacing-1"
-          placeholder="댓글을 입력해주세요."
-          value={comment}
-          onChange={(e) => {
-            setComment(e.target.value);
-          }}
-        />
-        <button className="border border-spacing-1 px-4" onClick={onSumbitHandler}>
-          댓글 입력
-        </button>
-        <ul>
-          {comments.map((comment) => (
-            <div key={comment.id}>
-              {editingId === comment.id ? (
-                <div>
-                  <input
-                    placeholder="수정할 내용을 입력해주세요."
-                    type="text"
-                    value={editComment}
-                    onChange={(e) => setEditComment(e.target.value)}
-                  />
-                  <button
-                    onClick={() => {
-                      onEditHandelr(comment.id);
-                    }}
-                  >
-                    수정 완료
-                  </button>
-                </div>
-              ) : (
-                <div className="flex gap-5 ">
-                  <div className="w-[500px]">
-                    <p className="text-md font-bold">{comment.userNickname}</p>
-                    <p>{comment.comment}</p>
+        <h1 className="text-start">댓글</h1>
+        <div className="flex items-center mb-5 mt-2">
+          {userId ? (
+            <>
+              <textarea
+                className="w-[900px] h-[100px] border border-spacing-1 resize-none"
+                placeholder="댓글을 입력해주세요."
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4" onClick={onSumbitHandler}>
+                댓글 입력
+              </button>
+            </>
+          ) : (
+            <>
+              <textarea
+                className="w-[900px] h-[100px] border border-spacing-1 resize-none"
+                placeholder="로그인 후 작성 가능합니다."
+              />
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4">로그인</button>
+            </>
+          )}
+        </div>
+        <div>
+          {comments.map((comment) => {
+            const dateStr = comment.date as string;
+            const date = new Date(dateStr);
+            const formDate = date.toLocaleString('ko-KR');
+            return (
+              <div key={comment.id} className="bg-white w-[1000px] rounded-md mb-3 py-3 px-5">
+                <p className="text-md font-bold my-1">⚽ {comment.userNickname}</p>
+                {editingId === comment.id ? (
+                  <div className="my-3">
+                    <textarea
+                      className="w-[960px] h-auto border border-spacing-1 resize-none pr-5"
+                      placeholder="수정할 내용을 입력해주세요."
+                      value={editComment}
+                      onChange={(e) => setEditComment(e.target.value)}
+                    />
+                    <p className="text-[12px] text-gray-400">{formDate}</p>
+                    <button
+                      className="mr-4 mt-3"
+                      onClick={() => {
+                        onEditHandelr(comment.id);
+                      }}
+                    >
+                      수정 완료
+                    </button>
                   </div>
-                  <p>{comment.date}</p>
-                  {userId === comment.user_id ? (
-                    <>
-                      <button
-                        className="border border-spacing-1 px-4"
-                        onClick={() => startEditing(comment.id, comment.comment)}
-                      >
-                        수정
-                      </button>
-                      <button className="border border-spacing-1 px-4" onClick={() => onDeleteHandelr(comment.id)}>
-                        삭제
-                      </button>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </ul>
+                ) : (
+                  <div className="w-[1000px] my-3">
+                    <p className="w-[980px] mb-1 pr-5">{comment.comment}</p>
+                    <p className="text-[12px] text-gray-400">{formDate}</p>
+                    {userId === comment.user_id ? (
+                      <div className="mt-3">
+                        <button className="mr-4" onClick={() => startEditing(comment.id, comment.comment)}>
+                          수정하기
+                        </button>
+                        <button className="" onClick={() => onDeleteHandelr(comment.id)}>
+                          삭제하기
+                        </button>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
