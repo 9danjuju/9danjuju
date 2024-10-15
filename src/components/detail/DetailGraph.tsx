@@ -1,10 +1,19 @@
-import { DefenceType, ShootType, PassingType, PlayerMatchDetailType } from '@/types/matchType';
+import { DefenceType, ShootType, PassingType } from '@/types/matchType';
 import { dataConverter } from '@/utils/services/matchDetailDataConverter';
 import { useEffect, useState } from 'react';
 
 type GraphDetailType = {
   data: DefenceType[] | ShootType[] | PassingType[];
   type: 'shoot' | 'pass' | 'defence';
+};
+
+type ConverterResultType = {
+  content: string;
+  percentage: number;
+};
+
+type TeamDataType = {
+  [key: string]: ConverterResultType;
 };
 
 const LIST = {
@@ -14,7 +23,10 @@ const LIST = {
 } as const;
 
 const DetailGraph = ({ data, type }: GraphDetailType) => {
-  const [teamData, setTeamData] = useState({
+  const [teamData, setTeamData] = useState<{
+    home: TeamDataType;
+    away: TeamDataType;
+  }>({
     home: {},
     away: {}
   });
@@ -28,7 +40,7 @@ const DetailGraph = ({ data, type }: GraphDetailType) => {
   return (
     <div className="flex justify-center items-center w-full h-full p-10">
       <div className="flex flex-col justify-center items-end text-black gap-5 w-full h-full">
-        {Object.entries(teamData.home).map(([key, value]: any) => {
+        {Object.entries(teamData.home).map(([key, value]) => {
           return (
             <div
               className={`${
@@ -56,7 +68,7 @@ const DetailGraph = ({ data, type }: GraphDetailType) => {
         })}
       </div>
       <div className="flex flex-col gap-5 w-full h-full text-black">
-        {Object.entries(teamData.away).map(([key, value]: any) => {
+        {Object.entries(teamData.away).map(([key, value]) => {
           return (
             <div
               className={`${value.percentage === 0 ? 'white' : 'bg-red-300'} h-[30px] flex justify-start items-center`}
