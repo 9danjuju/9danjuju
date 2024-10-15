@@ -32,7 +32,7 @@ const CommunityActionButton = ({ postId, mode }: CommunityActionButtonProps) => 
   return (
     <>
       {mode === 'write' ? (
-        <button onClick={handleWrite}>작성</button>
+        <button onClick={handleWrite}>글 작성</button>
       ) : (
         <>
           <button onClick={handleEdit}>수정</button>

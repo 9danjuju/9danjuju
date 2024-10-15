@@ -27,6 +27,7 @@ const Header = () => {
       </div>
 
       <div className="flex gap-5 items-center">
+        <Link href="/community">커뮤니티</Link>
         <Link href="/signup">회원가입</Link>
         <Link href="/login">로그인</Link>
         <button onClick={() => handleLogout()}>로그아웃</button>

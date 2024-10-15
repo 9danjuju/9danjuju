@@ -138,6 +138,8 @@ export type PlayerStatusType = {
 };
 
 export type PlayerInfoType = {
+  desc: string;
+  spposition: number;
   spId: number;
   spPosition: number;
   spGrade: number;
