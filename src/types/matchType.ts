@@ -1,3 +1,21 @@
+export type AllMatchType = {
+  [x: string]: string | number;
+  ouid: string;
+  nickname: string;
+  matchtype: number;
+  offset: number;
+  limit: number;
+  orderby: string;
+};
+export type SpidPlayerType = {
+  id: number;
+  name: string;
+};
+export type SppositionType = {
+  id: number;
+  spposition: number;
+  desc: string;
+};
 export type MatchDetailType = {
   matchId: string;
   matchDate: string;
@@ -120,30 +138,10 @@ export type PlayerStatusType = {
 };
 
 export type PlayerInfoType = {
+  desc: any;
+  spposition: number;
   spId: number;
   spPosition: number;
   spGrade: number;
   status: PlayerStatusType;
-};
-
-export type AllMatchType = {
-  [x: string]: any;
-  ouid: string;
-  nickname: string;
-  matchtype: number;
-  offset: number;
-  limit: number;
-  orderby: string;
-};
-
-export type UserInfoType = {
-  ouid: string;
-  nickname: string;
-  level: number;
-};
-
-export type SppositionType = {
-  id: number;
-  spposition: number;
-  desc: string;
 };
