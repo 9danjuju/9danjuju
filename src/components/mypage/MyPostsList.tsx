@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Tables } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
+import Post from './Post';
+import PostsTable from './PostsTable';
 
 // interface Post {
 //   id: string;
@@ -16,6 +18,8 @@ type PostArray = Tables<'Post'>;
 
 const MyPostsList = () => {
   const [posts, setPosts] = useState<PostArray[]>([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const getPosts = async () => {
     const user = await browserClient.auth.getUser();
@@ -24,38 +28,53 @@ const MyPostsList = () => {
     const { data, error } = await browserClient
       .from('Post')
       .select('*')
-      .eq('user_id', userId || '');
+      .eq('user_id', userId || '')
+      .range(page * 5, (page + 1) * 5 - 1);
     if (error) {
       console.error(error);
       return;
     }
     // console.log('data =>', data);
 
-    setPosts(data);
+    setPosts([...posts, ...data]);
     // console.log('posts =>', posts);
   };
 
   useEffect(() => {
     // getUserInfo();
     getPosts();
-  }, []);
+  }, [page]);
+
+  const handleLoad = () => {
+    setPage((pre) => pre + 1);
+  };
 
   return (
     <div>
+      <PostsTable />
       {posts.length !== 0 ? (
-        posts.map((post) => {
-          const dateString = post.date;
-          const date = new Date(dateString);
-          const formatDate = date.toLocaleString('ko-KR');
-          return (
-            <div key={post.id} className="flex gap-5">
-              {/* title 클릭시 글 상세 이동 */}
-              <div>{post.title}</div>
-              <div>{post.userNickname}</div>
-              <div>{formatDate}</div>
-            </div>
-          );
-        })
+        <div className="text-center">
+          <ul>
+            {posts.map((post) => {
+              const dateString = post.date;
+              const date = new Date(dateString);
+              const formatDate = date.toLocaleString('ko-KR');
+              return <Post key={post.id} formatDate={formatDate} post={post} />;
+            })}
+          </ul>
+          {loading ? (
+            <p>로딩중</p>
+          ) : (
+            <button
+              onClick={() => {
+                handleLoad();
+              }}
+              className="m-auto"
+            >
+              더보기
+            </button>
+          )}
+        </div>
       ) : (
         <p>게시글이 없습니다.</p>
       )}

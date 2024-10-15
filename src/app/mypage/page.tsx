@@ -3,8 +3,8 @@
 import Nickname from '@/components/mypage/Nickname';
 import { useEffect, useState } from 'react';
 import { getUserInfo } from '@/utils/supabase/auth';
-import { FcUser } from '@/utils/mypage/type';
-import { fetch9danju } from '@/utils/mypage/api';
+import { FcUser, Rate } from '@/utils/mypage/type';
+import { fetch9danju, fetchRate } from '@/utils/mypage/api';
 import Selected from '@/components/mypage/Selected';
 import MyInfo from '@/components/mypage/MyInfo';
 import MyPostsList from '@/components/mypage/MyPostsList';
@@ -13,6 +13,7 @@ const Page = () => {
   const [mode, setMode] = useState('myPosts');
   const [nickname, setNickname] = useState('');
   const [fcUser, setfcUser] = useState<FcUser | null>();
+  const [rate, setRate] = useState<Rate[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,18 +28,27 @@ const Page = () => {
       const userInfo = await fetch9danju(nickname);
       setfcUser(userInfo);
     };
+    const getRate = async () => {
+      const rateInfo = await fetchRate(nickname);
+      setRate(rateInfo);
+      // console.log(rateInfo);
+    };
+
     getUser();
+    getRate();
   }, [nickname]);
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 justify-center mt-7">
       <div>
         <div>
-          <MyInfo fcUser={fcUser} nickname={nickname} />
+          <MyInfo fcUser={fcUser} rate={rate} nickname={nickname} />
           <Selected mode={mode} setMode={setMode} />
         </div>
       </div>
-      <div>{mode !== 'nickname' ? <MyPostsList /> : <Nickname nickname={nickname} setNickname={setNickname} />}</div>
+      <div className="flex justify-center ">
+        {mode !== 'nickname' ? <MyPostsList /> : <Nickname nickname={nickname} setNickname={setNickname} />}
+      </div>
     </div>
   );
 };
