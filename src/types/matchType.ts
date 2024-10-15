@@ -138,7 +138,7 @@ export type PlayerStatusType = {
 };
 
 export type PlayerInfoType = {
-  desc: any;
+  desc: string;
   spposition: number;
   spId: number;
   spPosition: number;
