@@ -16,9 +16,9 @@ const CommunityList = () => {
 
   const fetchPosts = async (start: number, end: number) => {
     setLoading(true);
-    const { data } = await browserClient.from('Post').select().range(start, end); // start와 end에 따른 범위로 데이터 가져오기
+    const { data } = await browserClient.from('Post').select().order('date', { ascending: false }).range(start, end); // start와 end에 따른 범위로 데이터 가져오기 (날짜기준 내림차순)
+
     if (data && data.length > 0) setLoading(false); // data가 있을 경우에만 로딩 종료
-    console.log('data', data);
 
     return data || [];
   };
@@ -60,7 +60,7 @@ const CommunityList = () => {
   return (
     <div>
       <ul>
-        <div className="grid grid-cols-[2fr_1fr_1fr] gap-3 p-3 h-8 text-center border-b-1 border-neutral-700">
+        <div className="grid grid-cols-[2fr_1fr_1fr] gap-3 p-3 h-12 text-center border-b border-l-neutral-700">
           <div className="font-bold">제목</div>
           <div className="font-bold">작성자</div>
           <div className="font-bold">작성일</div>
@@ -68,13 +68,13 @@ const CommunityList = () => {
         {posts?.map((post) => (
           <li
             key={post.id}
-            className="grid grid-cols-[2fr_1fr_1fr] gap-3 p-3 h-12 text-center border-b-1 border-neutral-700"
+            className="grid grid-cols-[2fr_1fr_1fr] gap-3 p-3 h-14 text-center leading-loose border-b border-l-neutral-700"
           >
             <Link href={`/community/${post.id}`}>
               <p className="truncate">{post.title}</p>
             </Link>
             <p>{post.userNickname}</p>
-            <p>{post.date}</p>
+            <p>{new Date(post.date).toLocaleString('ko-KR')}</p>
           </li>
         ))}
       </ul>
