@@ -25,7 +25,6 @@ const PostEditor = ({ postData, isEdit = false }: DynamicPostEditorProps) => {
 
   const getUserInfo = async () => {
     const { data } = await browserClient.auth.getUser();
-    console.log('data', data);
 
     const getUserNickname = await data.user?.user_metadata.nickname;
     const getUserId = await data.user?.user_metadata.sub;
@@ -62,7 +61,11 @@ const PostEditor = ({ postData, isEdit = false }: DynamicPostEditorProps) => {
       userNickname: userNickname
     };
 
-    const { data } = await browserClient.from('Post').insert(newPost).select();
+    const { data, error } = await browserClient.from('Post').insert(newPost).select();
+    if (error) {
+      console.log('error', error.message);
+      alert('게시물 작성에 실패 했습니다.');
+    }
 
     if (data) router.push(`/community/${data[0].id}`);
   };
