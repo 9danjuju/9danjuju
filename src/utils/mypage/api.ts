@@ -6,7 +6,7 @@ export const fetchOuid = async (nickname: string) => {
     const res = await fetch(`https://open.api.nexon.com/fconline/v1/id?nickname=${nickname}`, {
       method: 'GET',
       headers: {
-        'x-nxopen-api-key': `test_ff678e92628b4b6a227e041bd6a1676887e31fc28b9612287d3d555427b5fc76efe8d04e6d233bd35cf2fabdeb93fb0d`
+        'x-nxopen-api-key': process.env.NEXT_PUBLIC_FIFA_API_KEY || ''
       }
     });
 
@@ -28,7 +28,7 @@ export const fetch9danju = async (nickname: string) => {
   }
   const res = await fetch(`https://open.api.nexon.com/fconline/v1/user/basic?ouid=${ouid}`, {
     headers: {
-      'x-nxopen-api-key': `test_ff678e92628b4b6a227e041bd6a1676887e31fc28b9612287d3d555427b5fc76efe8d04e6d233bd35cf2fabdeb93fb0d`
+      'x-nxopen-api-key': process.env.NEXT_PUBLIC_FIFA_API_KEY || ''
     }
   });
   const user: FcUser = await res.json();
