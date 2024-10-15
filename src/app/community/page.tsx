@@ -1,22 +1,16 @@
 import CommunityList from '@/components/community/CommunityList';
 import CommunityActionButton from '@/components/community/CommunityActionButton';
 
-import { serverClient } from '@/utils/supabase/server';
-
 const Communitypage = async () => {
-  const { data: posts, error } = await serverClient.from('Post').select();
-  if (error) throw new Error('게시물 목록을 불러오는데 실패했습니다.');
-
-  if (!posts) return <div>게시물이 없습니다.</div>;
-
   return (
-    <div className="w-full mx-auto">
-      <section className="flex flex-col">
-        <h1>자유 게시판</h1>
-        <hr />
-        <CommunityList posts={posts} />
+    <div className="w-full">
+      <section className="flex flex-col justify-center mx-auto max-w-[1400px] mt-10">
+        <div className="flex flex-row justify-between border-b-4 border-l-neutral-700">
+          <h1 className="text-2xl font-bold">자유 게시판</h1>
+          <CommunityActionButton mode="write" />
+        </div>
+        <CommunityList />
       </section>
-      <CommunityActionButton mode="write" />
     </div>
   );
 };
