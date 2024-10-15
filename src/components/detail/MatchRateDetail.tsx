@@ -138,8 +138,8 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
                   spId={selectedPlayer.spId}
                   spRating={selectedPlayer.status.spRating}
                   showRating={false}
-                  imgWidth={32}
-                  imgHeight={32}
+                  imgWidth={105}
+                  imgHeight={105}
                 />
               </div>
             </div>
