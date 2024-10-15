@@ -4,7 +4,6 @@ import { getFifaUserInfo } from '@/utils/server-action';
 interface ParamsType {
   nickname: string;
 }
-
 const Detail = async ({ params }: { params: ParamsType }) => {
   const userData = await getFifaUserInfo(params.nickname);
 
