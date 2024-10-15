@@ -4,7 +4,7 @@ const Selected = ({ mode, setMode }: { mode: string; setMode: Dispatch<SetStateA
   return (
     <div className="flex flex-col">
       <div
-        className={`p-2 m-1 ${mode === 'myPosts' ? `font-bold bg-slate-300` : ''} hover:cursor-pointer`}
+        className={`p-2 m-1 ${mode === 'myPosts' ? `font-bold border-l-2 border-slate-500` : ''} hover:cursor-pointer `}
         onClick={() => {
           setMode('myPosts');
         }}
@@ -12,7 +12,7 @@ const Selected = ({ mode, setMode }: { mode: string; setMode: Dispatch<SetStateA
         <p>내글 보기</p>
       </div>
       <div
-        className={`p-2 m-1 ${mode === 'nickname' ? `font-bold bg-slate-300` : ''} hover:cursor-pointer`}
+        className={`p-2 m-1 ${mode === 'nickname' ? `font-bold border-l-2 border-slate-500` : ''} hover:cursor-pointer`}
         onClick={() => {
           setMode('nickname');
         }}

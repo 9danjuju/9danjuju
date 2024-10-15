@@ -39,7 +39,7 @@ const Page = () => {
   }, [nickname]);
 
   return (
-    <div className="flex gap-10 justify-center mt-7">
+    <div className="flex gap-10 justify-center mt-16">
       <div>
         <div>
           <MyInfo fcUser={fcUser} rate={rate} nickname={nickname} />
