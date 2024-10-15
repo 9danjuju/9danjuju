@@ -31,14 +31,16 @@ const Page = () => {
   }, [nickname]);
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 justify-center mt-7">
       <div>
         <div>
           <MyInfo fcUser={fcUser} nickname={nickname} />
           <Selected mode={mode} setMode={setMode} />
         </div>
       </div>
-      <div>{mode !== 'nickname' ? <MyPostsList /> : <Nickname nickname={nickname} setNickname={setNickname} />}</div>
+      <div className="flex justify-center ">
+        {mode !== 'nickname' ? <MyPostsList /> : <Nickname nickname={nickname} setNickname={setNickname} />}
+      </div>
     </div>
   );
 };
