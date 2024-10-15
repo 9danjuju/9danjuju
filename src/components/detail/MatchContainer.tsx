@@ -25,7 +25,7 @@ const MatchContainer = () => {
   };
 
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center w-full">
       <nav className="bg-yellow-400 flex items-center m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
         <span onClick={() => handleMatchType(50)} className="cursor-pointer">
           공식경기
