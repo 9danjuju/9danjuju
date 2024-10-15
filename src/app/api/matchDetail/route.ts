@@ -3,7 +3,7 @@ import { type NextRequest } from 'next/server';
 const API_URL = process.env.NEXT_PUBLIC_FIFA_URL;
 const OPTIONS = {
   headers: {
-    'x-nxopen-api-key': process.env.NEXT_PUBLIC_TEST_API_KEY || ''
+    'x-nxopen-api-key': process.env.NEXT_PUBLIC_FIFA_API_KEY || ''
   }
 };
 export const GET = async (request: NextRequest) => {
