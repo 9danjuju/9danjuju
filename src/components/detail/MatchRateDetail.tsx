@@ -41,19 +41,24 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
 
   return (
     <>
-      <div className="bg-gray-300 flex flex-row justify-between m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
+      <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
         {data.map((info, index) => (
-          <div key={index} className={`flex-1 flex flex-col ${index === 0 ? 'items-start' : 'items-end border-l-2'}`}>
+          <div
+            key={index}
+            className={`flex-1 flex flex-wrap gap-4 justify-center items-center  ${
+              index === 0 ? 'items-start' : 'items-end border-l-2'
+            }`}
+          >
             {/* 선수목록 */}
             {info.player
               .filter((player) => player.status.spRating > 0)
               .map((player, playerIndex) => (
-                <div key={playerIndex} onClick={() => openModal(player)} className="mb-3 w-28">
+                <div key={playerIndex} onClick={() => openModal(player)} className="w-1/4 p-2">
                   <PlayerImage spId={player.spId} spRating={player.status.spRating} />
-                  <div className="bg-red-500 text-white p-1 rounded-lg text-center font-bold">
+                  <div className="bg-green-800 text-white p-1 rounded-lg flex justify-center items-center font-bold mb-1">
                     {getPlayerPosition(player.spPosition, playerPosition)}
                   </div>
-                  <div className="bg-zinc-800 text-white p-1 rounded-lg text-center">
+                  <div className="bg-zinc-800 text-white p-1 rounded-lg flex justify-center items-center">
                     {getPlayerName(player.spId, playerNames)}
                   </div>
                 </div>
@@ -106,44 +111,57 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
       </div>
       {/* 모달 */}
       {isModalOpen && selectedPlayer && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded shadow-lg w-1/4 text-black  text-center">
-            <div className="flex flex-row">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={closeModal}>
+          <div
+            className="bg-white p-4 rounded shadow-lg w-1/6  text-black text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-row items-center justify-center mb-5 ">
               {/* 선수기본정보 */}
               <div className="p-5">
                 {/* 선수이름 */}
-                <h3 className="text-2xl font-bold mt-2">
+                <h3 className="text-4xl font-bold text-left">
                   {selectedPlayer && getPlayerName(selectedPlayer.spId, playerNames)}
                 </h3>
-                <div className="flex flex-row justify-center items-center">
+                <div className="flex flex-row justify-center items-center gap-2 mt-2">
                   <span>포지션</span>
                   <span className="font-bold">
                     {selectedPlayer && getPlayerPosition(selectedPlayer.spPosition, playerPosition)}
                   </span>
                   <span>강화등급</span>
-                  <span className="bg-slate-200 rounded-sm w-4">{selectedPlayer?.spGrade}</span>
+                  <span className="bg-slate-200 rounded-sm w-12">{selectedPlayer?.spGrade}</span>
                 </div>
               </div>
               {/* 선수이미지 */}
               <div>
-                <PlayerImage spId={selectedPlayer.spId} spRating={selectedPlayer.status.spRating} />
+                <PlayerImage
+                  spId={selectedPlayer.spId}
+                  spRating={selectedPlayer.status.spRating}
+                  showRating={false}
+                  imgWidth={32}
+                  imgHeight={32}
+                />
               </div>
             </div>
             <div>
               {/* 주요지표 */}
-              <h2>주요지표</h2>
-              <div className=" bg-gray-200 p-5">
+              <h2 className="modal-h2">주요지표</h2>
+              <div className="modal-status-container">
+                <div className="flex justify-between modal-status-detail-container">
+                  <span>평점</span>
+                  <span className="bg-gray-300 rounded-sm w-8">{selectedPlayer.status.spRating}</span>
+                </div>
                 <div className="flex justify-between">
                   <span>득점</span>
-                  <span>{selectedPlayer.status.goal}</span>
+                  <span className="modal-status">{selectedPlayer.status.goal}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>어시스트</span>
-                  <span>{selectedPlayer.status.assist}</span>
+                  <span className="modal-status">{selectedPlayer.status.assist}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>패스성공률</span>
-                  <span>
+                  <span className="modal-status">
                     {isNaN(Math.round((selectedPlayer.status.passSuccess / selectedPlayer.status.passTry) * 100))
                       ? 0
                       : Math.round((selectedPlayer.status.passSuccess / selectedPlayer.status.passTry) * 100)}
@@ -153,12 +171,12 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
               </div>
             </div>
             <div>
-              {/* 주요지표 */}
-              <h2>공격지표</h2>
-              <div className=" bg-gray-200 p-5">
+              {/* 공격지표 */}
+              <h2 className="modal-h2">공격지표</h2>
+              <div className="modal-status-container">
                 <div className="flex justify-between">
                   <span>슈팅정확도</span>
-                  <span>
+                  <span className="modal-status">
                     {isNaN(Math.round((selectedPlayer.status.effectiveShoot / selectedPlayer.status.shoot) * 100))
                       ? 0
                       : Math.round((selectedPlayer.status.effectiveShoot / selectedPlayer.status.shoot) * 100)}
@@ -168,27 +186,29 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
 
                 <div className="flex justify-between">
                   <span>빗나간슈팅</span>
-                  <span>{selectedPlayer.status.shoot - selectedPlayer.status.effectiveShoot}</span>
+                  <span className="modal-status">
+                    {selectedPlayer.status.shoot - selectedPlayer.status.effectiveShoot}
+                  </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>유효 슈팅</span>
-                  <span>{selectedPlayer.status.effectiveShoot}</span>
+                  <span className="modal-status">{selectedPlayer.status.effectiveShoot}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>전체 슛</span>
-                  <span>{selectedPlayer.status.shoot}</span>
+                  <span className="modal-status">{selectedPlayer.status.shoot}</span>
                 </div>
               </div>
 
               <div>
-                {/* 주요지표 */}
-                <h2>공통지표</h2>
-                <div className=" bg-gray-200 p-5">
+                {/* 공통지표 */}
+                <h2 className="modal-h2">공통지표</h2>
+                <div className="modal-status-container">
                   <div className="flex justify-between">
                     <span>패스 성공률</span>
-                    <span>
+                    <span className="modal-status">
                       {isNaN(Math.round((selectedPlayer.status.passSuccess / selectedPlayer.status.passTry) * 100))
                         ? 0
                         : Math.round((selectedPlayer.status.passSuccess / selectedPlayer.status.passTry) * 100)}
@@ -197,25 +217,25 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
                   </div>
                   <div className="flex justify-between">
                     <span>패스 시도</span>
-                    <span>{selectedPlayer.status.passTry}</span>
+                    <span className="modal-status">{selectedPlayer.status.passTry}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>패스 성공</span>
-                    <span>{selectedPlayer.status.passSuccess}</span>
+                    <span className="modal-status">{selectedPlayer.status.passSuccess}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>드리블 시도</span>
-                    <span>{selectedPlayer.status.dribbleTry}</span>
+                    <span className="modal-status">{selectedPlayer.status.dribbleTry}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>드리블 성공</span>
-                    <span>{selectedPlayer.status.dribbleSuccess}</span>
+                    <span className="modal-status">{selectedPlayer.status.dribbleSuccess}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <button onClick={closeModal} className="mt-4 bg-red-500 text-white p-2 rounded">
+            <button onClick={closeModal} className="mt-4 bg-gray-500 text-white p-2 rounded">
               닫기
             </button>
           </div>
