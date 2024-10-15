@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import browserClient from '@/utils/supabase/client';
 
+import { createUserStore } from '@/userStore';
+
 type PageType = {
   mode: 'login' | 'signup';
 };
@@ -34,6 +36,8 @@ const loginSchema = signUpSchema.omit({ nickname: true });
 
 const AuthForm = ({ mode }: PageType) => {
   const router = useRouter();
+  const { login } = createUserStore();
+
   const schema = mode === 'signup' ? signUpSchema : loginSchema;
   const {
     register,
@@ -60,16 +64,26 @@ const AuthForm = ({ mode }: PageType) => {
         return;
       }
       case 'login': {
-        const { error } = await browserClient.auth.signInWithPassword({
+        const { data, error } = await browserClient.auth.signInWithPassword({
           email: formData.email,
           password: formData.password
         });
+
+        // 로그인한 user 정보 불러오기
+        login({
+          id: data.user?.id || '',
+          nickname: data.user?.user_metadata.nickname || '',
+          email: data.user?.email || '',
+          created_at: data.user?.created_at || ''
+        });
+
         if (error) {
           return window.alert('로그인 실패');
         }
         router.push('/');
         return;
       }
+
       default:
         return;
     }
