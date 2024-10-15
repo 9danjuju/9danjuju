@@ -16,12 +16,12 @@ const Post = ({
   formatDate: string;
 }) => {
   return (
-    <div className="flex gap-5">
+    <div className="w-[800px] border-b-[1px] border-slate-300 flex  p-2 text-center">
       <Link href={`/community/${post.id}`}>
-        <div>{post.title}</div>
+        <div className=" w-[400px]">{post.title}</div>
       </Link>
-      <div>{post.userNickname}</div>
-      <div>{formatDate}</div>
+      <div className=" w-36 ">{post.userNickname}</div>
+      <div className="w-60 text-sm">{formatDate}</div>
     </div>
   );
 };

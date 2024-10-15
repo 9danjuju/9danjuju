@@ -21,7 +21,7 @@ const Nickname = ({ nickname, setNickname }: { nickname: string; setNickname: Di
   };
 
   return (
-    <div>
+    <div className="w-[800px] flex flex-col items-center justify-center ">
       <form
         onSubmit={() => {
           handleSubmit(input);
