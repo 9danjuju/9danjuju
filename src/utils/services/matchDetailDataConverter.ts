@@ -1,5 +1,28 @@
 import { DetailButtonsKeysType } from '@/components/detail/MatchDetailContents';
 import { DefenceType, PassingType, ShootType } from '@/types/matchType';
+interface ShootDataType {
+  allshoot: { content: string; percentage: number };
+  heading: { content: string; percentage: number };
+  freekick: { content: string; percentage: number };
+  inBox: { content: string; percentage: number };
+  outBox: { content: string; percentage: number };
+  penalty: { content: string; percentage: number };
+}
+
+interface PassDataType {
+  pass: { content: string; percentage: number };
+  shortPass: { content: string; percentage: number };
+  longPass: { content: string; percentage: number };
+  throughPass: { content: string; percentage: number };
+  lobbedThroughPass: { content: string; percentage: number };
+  bouncingLobPass: { content: string; percentage: number };
+  drivenGroundPass: { content: string; percentage: number };
+}
+
+interface DefenceDataType {
+  block: { content: string; percentage: number };
+  tackle: { content: string; percentage: number };
+}
 
 export const dataConverter = (data: DefenceType | ShootType | PassingType, type: DetailButtonsKeysType) => {
   switch (type) {
@@ -40,7 +63,7 @@ export const dataConverter = (data: DefenceType | ShootType | PassingType, type:
               ? 0
               : Math.floor((shootData.goalPenaltyKick / shootData.shootPenaltyKick) * 100)
         }
-      };
+      } as ShootDataType;
     }
     case 'pass': {
       const passData = data as PassingType;
@@ -87,7 +110,7 @@ export const dataConverter = (data: DefenceType | ShootType | PassingType, type:
               ? 0
               : Math.floor((passData.drivenGroundPassSuccess / passData.drivenGroundPassTry) * 100)
         }
-      };
+      } as PassDataType;
     }
     case 'defence': {
       const defenceData = data as DefenceType;
@@ -102,7 +125,7 @@ export const dataConverter = (data: DefenceType | ShootType | PassingType, type:
           percentage:
             defenceData.tackleTry === 0 ? 0 : Math.floor((defenceData.tackleSuccess / defenceData.tackleTry) * 100)
         }
-      };
+      } as DefenceDataType;
     }
     default:
       return {};
