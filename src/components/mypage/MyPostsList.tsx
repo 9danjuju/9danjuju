@@ -22,6 +22,7 @@ const MyPostsList = () => {
   const [loading, setLoading] = useState(false);
 
   const getPosts = async () => {
+    setLoading(true);
     const user = await browserClient.auth.getUser();
     const userId = user.data.user?.id;
 
@@ -38,6 +39,7 @@ const MyPostsList = () => {
 
     setPosts([...posts, ...data]);
     // console.log('posts =>', posts);
+    setLoading(false);
   };
 
   useEffect(() => {
