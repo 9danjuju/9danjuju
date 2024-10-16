@@ -2,7 +2,6 @@
 import { useGetPlayersNameQuery } from '@/hooks/useGetPlayersNameQuery';
 import { useGetPositionQuery } from '@/hooks/useGetPositionQuery';
 import { PlayerInfoType, PlayerMatchDetailType, SpidPlayerType, SppositionType } from '@/types/matchType';
-import Image from 'next/image';
 import PlayerImage from './PlayerImage';
 import { useState } from 'react';
 
@@ -10,7 +9,7 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
   const { data: playerPosition } = useGetPositionQuery();
   const { data: playerNames } = useGetPlayersNameQuery();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerInfoType | null>(null);
 
   // 매치 디테일 데이터의 spId로 선수 이름 가져오기
@@ -65,49 +64,6 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
               ))}
           </div>
         ))}
-
-        {/* {data[0].player
-            .filter((player) => player.status.spRating > 0)
-            .map((player, index) => (
-              <span key={index}>
-                <Image
-                  className="rounded-md object-scale-down"
-                  width={64}
-                  height={64}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${player.spId}.png`}
-                  onError={() => console.log('이미지 로드에 실패했습니다.')}
-                  alt={String(player.spId)}
-                />
-                {player.spGrade}등급/포지션:{getPlayerPosition(player.spPosition)}/평점:
-                {player.status.spRating}
-                /패스성공률:{Math.round((player.status.passSuccess / player.status.passTry) * 100)}%/득점:
-                {player.status.goal}
-                {getPlayerName(player.spId)}
-              </span>
-            ))}
-        </div>
-        <div className="flex-1 flex flex-col items-end border-l-2">
-          {data[1].player
-            .filter((player) => player.status.spRating > 0)
-            .map((player, index) => (
-              <span key={index}>
-                <Image
-                  className="rounded-md object-scale-down"
-                  width={64}
-                  height={64}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${player.spId}.png`}
-                  onError={() => console.log('이미지 로드에 실패했습니다.')}
-                  alt={String(player.spId)}
-                />
-                {player.spGrade}등급/포지션:{getPlayerPosition(player.spPosition)}/평점:
-                {player.status.spRating}
-                /패스성공률:{Math.round((player.status.passSuccess / player.status.passTry) * 100)}%/득점:
-                {player.status.goal}
-                {getPlayerName(player.spId)}
-              </span>
-            ))} */}
       </div>
       {/* 모달 */}
       {isModalOpen && selectedPlayer && (
