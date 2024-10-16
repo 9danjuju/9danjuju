@@ -1,4 +1,3 @@
-'use client';
 import dynamic from 'next/dynamic';
 
 const PostEditor = dynamic(() => import('@/components/community/PostEditor'), { ssr: false });

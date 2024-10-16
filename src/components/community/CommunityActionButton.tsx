@@ -7,7 +7,7 @@ import React from 'react';
 export interface CommunityActionButtonProps {
   postId?: string;
   createUserId: string;
-  mode?: 'write';
+  mode?: 'write' | null;
 }
 
 const CommunityActionButton = ({ postId, createUserId, mode }: CommunityActionButtonProps) => {
