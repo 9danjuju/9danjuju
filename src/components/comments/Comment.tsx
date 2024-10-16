@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Tables } from '../../../database.types';
 import { useParams } from 'next/navigation';
 import { useUserStore } from '@/userStore';
+import Link from 'next/link';
 
 // useState 타입
 type CommentType = Tables<'Comments'>;
@@ -142,7 +143,9 @@ const Comment = () => {
                 className="w-[900px] h-[100px] border border-spacing-1 resize-none"
                 placeholder="로그인 후 작성 가능합니다."
               />
-              <button className="w-[100px] h-[100px] border border-spacing-1 px-4 text-white">로그인</button>
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4 text-white">
+                <Link href={'/login'}>로그인</Link>
+              </button>
             </>
           )}
         </div>
