@@ -1,5 +1,7 @@
-import DynamicPostEditor from '@/components/community/DynamicPostEditor';
 import browserClient from '@/utils/supabase/client';
+import dynamic from 'next/dynamic';
+
+const PostEditor = dynamic(() => import('@/components/community/PostEditor'), { ssr: false });
 
 interface CommunityModifyPageProps {
   params: {
@@ -12,7 +14,7 @@ const CommunityModifypage = async ({ params }: CommunityModifyPageProps) => {
 
   return (
     <div className="w-[768px] m-auto">
-      <DynamicPostEditor postData={data} isEdit={true} />
+      <PostEditor postData={data} isEdit={true} />
     </div>
   );
 };

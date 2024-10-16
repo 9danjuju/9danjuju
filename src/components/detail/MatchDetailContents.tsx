@@ -35,10 +35,15 @@ const MatchDetailContents = ({ matchInfo }: { matchInfo: PlayerMatchDetailType[]
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="bg-pink-400 flex items-center justify-between m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
+      <div className="flex items-center justify-between m-2 px-10 gap-5 text-xl max-w-3xl w-full mx-auto">
         {Object.entries(DETAIL_BUTTONS).map(([key, value]) => {
+          const isActive = key === detailType;
           return (
-            <button key={key} onClick={() => handleDetailTypeButton(key as DetailButtonsKeysType)}>
+            <button
+              key={key}
+              onClick={() => handleDetailTypeButton(key as DetailButtonsKeysType)}
+              className={`${isActive ? 'bg-black text-white' : 'bg-gray-300 text-black'} rounded-md w-1/4 h-10`}
+            >
               {value}
             </button>
           );
