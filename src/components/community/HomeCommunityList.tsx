@@ -7,7 +7,7 @@ const HomeCommunityList = async () => {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row justify-between">
-        <h2 className="font-bold text-xl">자유게시판</h2>
+        <h2 className="font-bold text-xl">커뮤니티</h2>
         <Link href="/community">더보기</Link>
       </div>
       <ul className="space-y-4">
