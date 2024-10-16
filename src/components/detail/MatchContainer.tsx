@@ -27,7 +27,7 @@ const MatchContainer = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
-      <nav className="bg-yellow-400 flex items-center m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
+      <nav className="bg-yellow-400 flex items-center m-2 p-5 gap-2 text-xl w-full mx-auto">
         <span onClick={() => handleMatchType(50)} className={`${matchType === 50 ? 'font-bold' : ''} cursor-pointer`}>
           공식경기
         </span>
@@ -53,7 +53,7 @@ const MatchContainer = () => {
       )}
 
       {hasNextPage ? (
-        <button onClick={handleLoadMore} className="bg-gray-300 text-white max-w-3xl w-full mx-auto p-3">
+        <button onClick={handleLoadMore} className="bg-gray-300 text-white  w-full mx-auto p-3">
           더보기
         </button>
       ) : null}
