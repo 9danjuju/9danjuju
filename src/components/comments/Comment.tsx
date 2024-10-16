@@ -39,7 +39,7 @@ const Comment = () => {
 
   // 댓글 조회
   const getComments = async () => {
-    const { data, error } = await browserClient.from('Comments').select('*');
+    const { data, error } = await browserClient.from('Comments').select('*').order('date', { ascending: true });
 
     if (data) {
       const res = data.filter((comment) => comment.post_id === postId);
@@ -102,7 +102,8 @@ const Comment = () => {
         comment: editComment // 수정된 댓글 내용
       })
       .eq('id', id)
-      .select();
+      .select()
+      .order('date', { ascending: true });
 
     if (!data || data.length === 0) {
       console.log('수정된 데이터가 없습니다');

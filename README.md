@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 구단주주총회
 
-## Getting Started
+## 🖥️ 프로젝트 소개
 
-First, run the development server:
+온라인 게임인 `피파 온라인4`의 API를 활용하여 게임 내 사용자의 전적을 확인할 수 있는 서비스입니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🔗 배포 링크
+
+배포 링크
+
+## 👨‍👩‍👧‍👦 팀 소개
+
+|                    권다정                    |                    신한별                    |                    이기성                    |                   이석원                   |                     정지형                     |
+| :------------------------------------------: | :------------------------------------------: | :------------------------------------------: | :----------------------------------------: | :--------------------------------------------: |
+| [@kwondajung](https://github.com/kwondajung) | [@star1024cd](https://github.com/star1024cd) | [@Leekee0905](https://github.com/Leekee0905) | [@seokwon27](https://github.com/seokwon27) | [@stopbrother](https://github.com/stopbrother) |
+
+## 🕰️ 개발 기간
+
+2024.09.24 ~ 2024.10.16
+
+## 📂 폴더 구조
+
+(최종 merge 후 추가 예정)
+
+## 🧩 주요 기능
+
+### 1. 회원 가입 및 로그인
+
+#### 1-1. 회원가입
+
+#### 1-2. 로그인
+
+### 2. 검색
+
+### 3. 전적 확인
+
+### 4. 커뮤니티
+
+### 5. 댓글
+
+### 6. 마이페이지
+
+## 🚨 트러블 슈팅
+
+### 1. ex) 렌더링 오류
+
+#### 1-1. 발생한 이슈
+
+#### 1-2. 시도한 방법
+
+#### 1-3. 해결 방법
+
+```js
+const example = ~~~~
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🧪 Technologies & Tools
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📋 Languages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+![javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-## Learn More
+### 📚 Frameworks, Platforms and Libraries
 
-To learn more about Next.js, take a look at the following resources:
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 💾 Databases
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
-## Deploy on Vercel
+### 🎨 Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ☁️ Hosting/SaaS
+
+![vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+### 💻 IDEs/Editors
+
+![vscode](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+
+### 🕓 Version Control
+
+![git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+
+### 💬 Social
+
+![slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
+
+### 🥅 Other
+
+![notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+![prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
