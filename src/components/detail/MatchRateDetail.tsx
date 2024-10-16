@@ -4,7 +4,7 @@ import { useGetPositionQuery } from '@/hooks/useGetPositionQuery';
 import { PlayerInfoType, PlayerMatchDetailType, SpidPlayerType, SppositionType } from '@/types/matchType';
 import PlayerImage from './PlayerImage';
 import { useState } from 'react';
-import Field from '@/app/api/Field/page';
+import Field from '@/components/Field/Field';
 
 export const getPlayerName = (spId: number, playerNames: SpidPlayerType[] | undefined) => {
   if (!playerNames) return;
@@ -42,7 +42,7 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
 
   return (
     <>
-    {/* 선수정보 */}
+      {/* 선수정보 */}
       {/* <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
         {data.map((info, index) => (
           <div
