@@ -4,12 +4,16 @@ import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
-import { TablesInsert, TablesUpdate } from '../../../database.types';
+import { Tables, TablesInsert, TablesUpdate } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { DynamicPostEditorProps } from './DynamicPostEditor';
 
-const PostEditor = ({ postData, isEdit = false }: DynamicPostEditorProps) => {
+export interface PostEditorProps {
+  postData: Tables<'Post'> | null;
+  isEdit: boolean;
+}
+
+const PostEditor = ({ postData, isEdit = false }: PostEditorProps) => {
   const router = useRouter();
 
   const [title, setTitle] = useState(postData?.title || '');
@@ -87,6 +91,7 @@ const PostEditor = ({ postData, isEdit = false }: DynamicPostEditorProps) => {
         initialEditType="wysiwyg" // 초기 편집 유형
         useCommandShortcut={true} // 키보드 단축기 사용 여부
         toolbarItems={toolbarItems} // 도구 모음
+        hideModeSwitch // 모드 숨기기 (markdown, wyysiwyg)
         ref={editorRef}
         onChange={handleEditorChange}
       />
