@@ -6,7 +6,10 @@ import localFont from 'next/font/local';
 
 export const metadata: Metadata = {
   title: '구단주주총회',
-  description: '피파온라인 API를 활용한 전적 확인 사이트입니다.'
+  description: '피파온라인 API를 활용한 전적 확인 사이트입니다.',
+  icons: {
+    icon: '/img/favicon.png'
+  }
 };
 
 const myFont = localFont({
