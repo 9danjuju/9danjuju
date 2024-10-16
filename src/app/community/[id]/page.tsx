@@ -13,7 +13,7 @@ const CommunityDetailpage = async ({ params }: CommunityDetailPageProps) => {
   if (!postData) return <div>해당 게시물이 없습니다.</div>;
   return (
     <div className="w-full">
-      <section key={postData.id} className="flex flex-col gap-4 mx-auto mt-10 p-4 max-w-[1000px]">
+      <section key={postData.id} className="flex flex-col gap-4 mx-auto mt-10 py-4 max-w-[1000px]">
         <h1 className="text-2xl">{postData.title}</h1>
         <div className="flex flex-row justify-between pb-4 border-b border-l-neutral-700">
           <div className="flex flex-row gap-2 text-sm">

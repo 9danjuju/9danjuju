@@ -8,6 +8,8 @@ import { Tables, TablesInsert, TablesUpdate } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/userStore';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 export interface PostEditorProps {
   postData: Tables<'Post'> | null;
@@ -69,8 +71,8 @@ const PostEditor = ({ postData, isEdit }: PostEditorProps) => {
     ['scrollSync']
   ];
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <Input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
       <Editor
         initialValue={postData?.content || ' '} // 초기값
         height="400px" // 높이
@@ -81,7 +83,9 @@ const PostEditor = ({ postData, isEdit }: PostEditorProps) => {
         ref={editorRef}
         onChange={handleEditorChange}
       />
-      <button>{!isEdit ? '작성' : '수정'}</button>
+      <div className="text-right">
+        <Button variant="outline">{!isEdit ? '작성 완료' : '수정 완료'}</Button>
+      </div>
     </form>
   );
 };
