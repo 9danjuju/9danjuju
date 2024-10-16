@@ -34,7 +34,7 @@ const MatchDetailContents = ({ matchInfo }: { matchInfo: PlayerMatchDetailType[]
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-white/85">
+    <div className={`flex flex-col justify-center items-center ${detailType === 'rate' ? '' : 'bg-white/85'}`}>
       <div className="text-black flex items-center justify-around  text-xl w-full border-b-[1px] border-zinc-400">
         {Object.entries(DETAIL_BUTTONS).map(([key, value]) => {
           const isActive = detailType === key;

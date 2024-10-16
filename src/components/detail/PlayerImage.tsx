@@ -31,7 +31,7 @@ const PlayerImage = ({ spId, spRating, showRating = true, imgWidth = 64, imgHeig
         alt={String(spId)}
       />
       {showRating && (
-        <div className="absolute top-[-10px] right-[-2px] bg-zinc-800 text-white p-1 rounded-lg">
+        <div className="absolute top-[-10px] right-[-10px] bg-zinc-900 text-white p-1 rounded-lg">
           {spRating.toFixed(1)}
         </div>
       )}
