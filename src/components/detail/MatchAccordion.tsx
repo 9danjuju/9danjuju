@@ -1,5 +1,5 @@
 'use client';
-import { utcTimeToKstConverter } from '@/utils/utcTimeToKstConverter';
+import { utcTimeToKstConverter } from '@/utils/services/utcTimeToKstConverter';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import MatchDetailContents from './MatchDetailContents';
 import { useMatchDetailDataQuery } from '@/hooks/useMatchDetailDataQuery';
