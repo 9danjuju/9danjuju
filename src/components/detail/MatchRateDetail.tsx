@@ -43,8 +43,7 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
   return (
     <>
       <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
-        {/* 선수목록 */}
-        {/* {data.map((info, index) => (
+        {data.map((info, index) => (
           <div
             key={index}
             className={`flex-1 flex flex-wrap gap-4 justify-center items-center  ${
@@ -65,50 +64,7 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
                 </div>
               ))}
           </div>
-        ))} */}
-
-        {/* {data[0].player
-            .filter((player) => player.status.spRating > 0)
-            .map((player, index) => (
-              <span key={index}>
-                <Image
-                  className="rounded-md object-scale-down"
-                  width={64}
-                  height={64}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${player.spId}.png`}
-                  onError={() => console.log('이미지 로드에 실패했습니다.')}
-                  alt={String(player.spId)}
-                />
-                {player.spGrade}등급/포지션:{getPlayerPosition(player.spPosition)}/평점:
-                {player.status.spRating}
-                /패스성공률:{Math.round((player.status.passSuccess / player.status.passTry) * 100)}%/득점:
-                {player.status.goal}
-                {getPlayerName(player.spId)}
-              </span>
-            ))}
-        </div>
-        <div className="flex-1 flex flex-col items-end border-l-2">
-          {data[1].player
-            .filter((player) => player.status.spRating > 0)
-            .map((player, index) => (
-              <span key={index}>
-                <Image
-                  className="rounded-md object-scale-down"
-                  width={64}
-                  height={64}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${player.spId}.png`}
-                  onError={() => console.log('이미지 로드에 실패했습니다.')}
-                  alt={String(player.spId)}
-                />
-                {player.spGrade}등급/포지션:{getPlayerPosition(player.spPosition)}/평점:
-                {player.status.spRating}
-                /패스성공률:{Math.round((player.status.passSuccess / player.status.passTry) * 100)}%/득점:
-                {player.status.goal}
-                {getPlayerName(player.spId)}
-              </span>
-            ))} */}
+        ))}
       </div>
       {/* 필드 */}
       <Field matchInfo={data} playerNames={playerNames} playerPosition={playerPosition} openModal={openModal} />

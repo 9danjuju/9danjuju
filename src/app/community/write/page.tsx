@@ -1,10 +1,11 @@
-'use client';
-import DynamicPostEditor from '@/components/community/DynamicPostEditor';
+import dynamic from 'next/dynamic';
+
+const PostEditor = dynamic(() => import('@/components/community/PostEditor'), { ssr: false });
 
 const CommunityWritepage = () => {
   return (
-    <div className="w-[768px] m-auto">
-      <DynamicPostEditor postData={null} isEdit={false} />
+    <div className="max-w-[1280px] m-auto mt-8">
+      <PostEditor postData={null} isEdit={false} />
     </div>
   );
 };

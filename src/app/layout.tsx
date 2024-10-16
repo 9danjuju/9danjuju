@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Providers from '@/provider/QueryProvider';
-import { Suspense } from 'react';
-import Loading from './loading';
 
 export const metadata: Metadata = {
   title: '구단주주총회',
@@ -18,12 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Suspense fallback={<Loading />}>
-          <Providers>
-            <Header />
-            {children}
-          </Providers>
-        </Suspense>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
