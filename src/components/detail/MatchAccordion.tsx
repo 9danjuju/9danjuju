@@ -2,18 +2,14 @@
 import { AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import MatchDetailContents from './MatchDetailContents';
 import { useMatchDetailDataQuery } from '@/hooks/useMatchDetailDataQuery';
-import Loading from '@/app/loading';
 import { useParams } from 'next/navigation';
 
 const MatchAccordion = ({ id }: { id: string }) => {
-  const { data, isLoading } = useMatchDetailDataQuery(id);
+  const { data } = useMatchDetailDataQuery(id);
   const params = useParams();
 
-  if (isLoading) return <Loading />;
-  console.log(data);
   const myMatchResult = data.matchInfo.find((e) => e.nickname === decodeURI(params.nickname as string))?.matchDetail
     .matchResult;
-  console.log(myMatchResult);
 
   return (
     <AccordionItem value="item-1">
@@ -23,12 +19,12 @@ const MatchAccordion = ({ id }: { id: string }) => {
         }`}
       >
         <span className="font-bold text-4xl">{myMatchResult}</span>
-        <div className="flex justify-center flex-grow text-xl">
-          <span>{data.matchInfo[0].nickname}</span>
-          <span className="mx-2">
+        <div className="flex justify-between items-center flex-grow text-xl">
+          <span className="w-1/3 text-right">{data.matchInfo[0].nickname}</span>
+          <span className="mx-2 w-1/3 text-center">
             {data.matchInfo[0].shoot.goalTotal} : {data.matchInfo[1].shoot.goalTotal}
           </span>
-          <span>{data.matchInfo[1].nickname}</span>
+          <span className="w-1/3 text-left">{data.matchInfo[1].nickname}</span>
         </div>
         <span className="text-xs">{new Date(data.matchDate).toLocaleString('ko-KR')}</span>
       </AccordionTrigger>
