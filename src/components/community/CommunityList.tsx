@@ -70,7 +70,7 @@ const CommunityList = () => {
             key={post.id}
             className="grid grid-cols-[2fr_1fr_1fr] gap-3 p-3 h-14 text-center leading-loose border-b border-l-neutral-700"
           >
-            <Link href={`/community/${post.id}`}>
+            <Link href={`/community/${post.id}`} className="hover:underline">
               <p className="truncate">{post.title}</p>
             </Link>
             <p>{post.userNickname}</p>
