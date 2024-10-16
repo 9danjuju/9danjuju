@@ -78,7 +78,7 @@ const CommunityList = () => {
           </li>
         ))}
       </ul>
-      <div ref={observerRef} className="h-6 bg-black" />
+      <div ref={observerRef} className="h-6" />
     </div>
   );
 };
