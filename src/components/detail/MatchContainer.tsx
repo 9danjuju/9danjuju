@@ -26,15 +26,24 @@ const MatchContainer = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
-      <nav className="flex items-center m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
-        <span onClick={() => handleMatchType(50)} className={`${matchType === 50 ? 'font-bold' : ''} cursor-pointer`}>
+    <div className=" justify-center items-center w-full text-center">
+      <nav className="flex  my-2 py-5 gap-5 text-xl max-w-3xl w-full">
+        <span
+          onClick={() => handleMatchType(50)}
+          className={`${matchType === 50 ? 'font-bold border-b-2' : ''} cursor-pointer border-white pb-2`}
+        >
           공식경기
         </span>
-        <span onClick={() => handleMatchType(40)} className={`${matchType === 40 ? 'font-bold' : ''} cursor-pointer`}>
+        <span
+          onClick={() => handleMatchType(40)}
+          className={`${matchType === 40 ? 'font-bold border-b-2' : ''} cursor-pointer border-white pb-2`}
+        >
           친선경기
         </span>
-        <span onClick={() => handleMatchType(52)} className={`${matchType === 52 ? 'font-bold' : ''} cursor-pointer`}>
+        <span
+          onClick={() => handleMatchType(52)}
+          className={`${matchType === 52 ? 'font-bold border-b-2 ' : ''} cursor-pointer  border-white pb-2`}
+        >
           감독모드
         </span>
       </nav>
@@ -53,7 +62,10 @@ const MatchContainer = () => {
       )}
 
       {hasNextPage ? (
-        <button onClick={handleLoadMore} className="bg-gray-300 text-white  w-full mx-auto p-3">
+        <button
+          onClick={handleLoadMore}
+          className="border-white border-[1px] text-white mt-5  w-1/5 mx-auto p-3 hover:border-2 hover:font-bold hover:bg-white/20"
+        >
           더보기
         </button>
       ) : null}
