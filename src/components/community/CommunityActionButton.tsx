@@ -37,10 +37,10 @@ const CommunityActionButton = ({ postId, createUserId, mode }: CommunityActionBu
     <>
       {mode === 'write' && <button onClick={handleWrite}>글 작성</button>}
       {userInfo.id === createUserId && (
-        <>
+        <div className="space-x-3">
           <button onClick={handleEdit}>수정</button>
           <button onClick={handleDelete}>삭제</button>
-        </>
+        </div>
       )}
     </>
   );
