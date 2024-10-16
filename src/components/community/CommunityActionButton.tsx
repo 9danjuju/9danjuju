@@ -7,21 +7,16 @@ import { Button } from '../ui/button';
 
 export interface CommunityActionButtonProps {
   postId?: string;
-  createUserId: string;
-  mode?: 'write' | null;
+  createUserId: string | null;
 }
 
-const CommunityActionButton = ({ postId, createUserId, mode }: CommunityActionButtonProps) => {
+const CommunityActionButton = ({ postId, createUserId }: CommunityActionButtonProps) => {
   const router = useRouter();
 
   const { userInfo } = useUserStore();
 
   const handleEdit = () => {
     router.push(`/community/${postId}/modify`);
-  };
-
-  const handleWrite = () => {
-    router.push('/community/write');
   };
 
   const handleDelete = async () => {
@@ -36,11 +31,6 @@ const CommunityActionButton = ({ postId, createUserId, mode }: CommunityActionBu
 
   return (
     <>
-      {mode === 'write' && (
-        <Button variant="outline" onClick={handleWrite}>
-          글 작성
-        </Button>
-      )}
       {userInfo.id === createUserId && (
         <div className="space-x-3">
           <Button variant="outline" onClick={handleEdit}>
