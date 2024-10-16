@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET() {
   const FIFA_API_KEY = process.env.NEXT_PUBLIC_FIFA_API_KEY as string;
 
   if (!FIFA_API_KEY) {

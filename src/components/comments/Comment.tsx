@@ -96,7 +96,7 @@ const Comment = () => {
 
   // 댓글 수정
   const onEditHandelr = async (id: string) => {
-    const { data, error } = await browserClient
+    const { data } = await browserClient
       .from('Comments')
       .update({
         comment: editComment // 수정된 댓글 내용
