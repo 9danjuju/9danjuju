@@ -7,7 +7,7 @@ const Detail = ({ params }: { params: ParamsType }) => {
   return (
     <div className="flex flex-col justify-center items-center">
       <UserInfoBox nickname={params.nickname} />
-      <div className="max-w-3xl w-full flex flex-col justify-center items-center">
+      <div className="w-[1440px] flex flex-col justify-center items-center">
         <MatchContainer />
       </div>
     </div>

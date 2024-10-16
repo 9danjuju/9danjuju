@@ -42,7 +42,8 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
 
   return (
     <>
-      <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
+    {/* 선수정보 */}
+      {/* <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
         {data.map((info, index) => (
           <div
             key={index}
@@ -65,7 +66,7 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
               ))}
           </div>
         ))}
-      </div>
+      </div> */}
       {/* 필드 */}
       <Field matchInfo={data} playerNames={playerNames} playerPosition={playerPosition} openModal={openModal} />
       {/* 모달 */}
