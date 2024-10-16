@@ -1,15 +1,20 @@
 'use client';
+import { useUserStore } from '@/userStore';
 import browserClient from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { Button } from '../ui/button';
 
 export interface CommunityActionButtonProps {
   postId?: string;
-  mode?: 'write';
+  createUserId: string;
+  mode?: 'write' | null;
 }
 
-const CommunityActionButton = ({ postId, mode }: CommunityActionButtonProps) => {
+const CommunityActionButton = ({ postId, createUserId, mode }: CommunityActionButtonProps) => {
   const router = useRouter();
+
+  const { userInfo } = useUserStore();
 
   const handleEdit = () => {
     router.push(`/community/${postId}/modify`);
@@ -31,13 +36,20 @@ const CommunityActionButton = ({ postId, mode }: CommunityActionButtonProps) => 
 
   return (
     <>
-      {mode === 'write' ? (
-        <button onClick={handleWrite}>글 작성</button>
-      ) : (
-        <>
-          <button onClick={handleEdit}>수정</button>
-          <button onClick={handleDelete}>삭제</button>
-        </>
+      {mode === 'write' && (
+        <Button variant="outline" onClick={handleWrite}>
+          글 작성
+        </Button>
+      )}
+      {userInfo.id === createUserId && (
+        <div className="space-x-3">
+          <Button variant="outline" onClick={handleEdit}>
+            수정
+          </Button>
+          <Button variant="outline" onClick={handleDelete}>
+            삭제
+          </Button>
+        </div>
       )}
     </>
   );

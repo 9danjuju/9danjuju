@@ -1,6 +1,6 @@
 import { PiSpinnerGap } from 'react-icons/pi';
 
-const Loading = () => {
+const LoadingSpinner = () => {
   return (
     <div className="w-sreen min-h-screen flex flex-col justify-center items-center">
       <PiSpinnerGap className="animate-spin mb-10 w-[200px] h-[200px]" />
@@ -9,4 +9,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingSpinner;
