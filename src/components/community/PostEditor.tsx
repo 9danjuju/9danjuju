@@ -14,7 +14,7 @@ export interface PostEditorProps {
   isEdit: boolean;
 }
 
-const PostEditor = ({ postData, isEdit = false }: PostEditorProps) => {
+const PostEditor = ({ postData, isEdit }: PostEditorProps) => {
   const router = useRouter();
 
   const { userInfo } = useUserStore();
