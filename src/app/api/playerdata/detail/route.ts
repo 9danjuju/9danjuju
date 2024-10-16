@@ -9,7 +9,7 @@ export async function GET() {
 
   const apiUrlString = `https://open.api.nexon.com/static/fconline/meta/spid.json`;
   try {
-    const res = await fetch(apiUrlString, { cache: 'no-store' });
+    const res = await fetch(apiUrlString);
 
     if (res.ok) {
       const playerNameData = await res.json();
