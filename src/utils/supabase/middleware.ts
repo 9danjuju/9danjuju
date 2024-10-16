@@ -39,19 +39,21 @@ export const updateSession = async (request: NextRequest) => {
 
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
-    const user = await supabase.auth.getUser(); // 세션이 만료된 경우 자동 갱신(현재 사용자 정보를 가져옴)
-
+    const user = await supabase.auth.getUser();
     // protected routes
-    // 보호된 경로에 접근 시 사용자 에러 발생 시 리다이렉트
-    if (request.nextUrl.pathname.startsWith('/protected') && user.error) {
-      return NextResponse.redirect(new URL('/sign-in', request.url));
-    }
+    const protectedRoutes = ['/mypage', '/community/write'];
+    const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
 
+    if (isProtectedRoute && user.error) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
     return response;
   } catch (e) {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
     // Check out http://localhost:3000 for Next Steps.
+    console.log(e);
+
     return NextResponse.next({
       request: {
         headers: request.headers

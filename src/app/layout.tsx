@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Header from '@/components/layout/Header';
+import Providers from '@/provider/QueryProvider';
 
 export const metadata: Metadata = {
   title: '구단주주총회',
@@ -13,7 +15,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body
+        className="text-white"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+        url(/img/homeBackgroundImage.jpg)`
+        }}
+      >
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
