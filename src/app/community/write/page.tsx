@@ -4,7 +4,7 @@ const PostEditor = dynamic(() => import('@/components/community/PostEditor'), { 
 
 const CommunityWritepage = () => {
   return (
-    <div className="w-[768px] m-auto">
+    <div className="max-w-[1280px] m-auto mt-8">
       <PostEditor postData={null} isEdit={false} />
     </div>
   );
