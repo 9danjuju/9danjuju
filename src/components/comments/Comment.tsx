@@ -120,7 +120,7 @@ const Comment = () => {
   return (
     <div className=" w-full px-10 bg-neutral-100 p-2 grid place-items-center">
       <div>
-        <h1 className="text-start">댓글</h1>
+        <h1 className="text-start">댓글 {comments.length}</h1>
         <div className="flex items-center mb-5 mt-2">
           {userId ? (
             <>
