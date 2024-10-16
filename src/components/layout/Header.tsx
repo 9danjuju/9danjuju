@@ -4,10 +4,10 @@ import Link from 'next/link';
 import SearchBar from '../SearchBar';
 import browserClient from '@/utils/supabase/client';
 import { usePathname, useRouter } from 'next/navigation';
-import { createUserStore } from '@/userStore';
+import { useUserStore } from '@/userStore';
 
 const Header = () => {
-  const { userInfo } = createUserStore();
+  const { userInfo } = useUserStore();
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = async () => {
