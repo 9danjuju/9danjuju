@@ -21,7 +21,7 @@ const CommunityDetailpage = async ({ params }: CommunityDetailPageProps) => {
               <p>{postData.date}</p>| <p>{postData.userNickname}</p>
             </div>
 
-            <CommunityActionButton postId={postData.id} />
+            <CommunityActionButton postId={postData.id} createUserId={postData.user_id} />
           </div>
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.content }}></div>

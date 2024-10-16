@@ -2,11 +2,12 @@
 
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 import { Tables, TablesInsert, TablesUpdate } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/userStore';
 
 export interface PostEditorProps {
   postData: Tables<'Post'> | null;
@@ -16,31 +17,16 @@ export interface PostEditorProps {
 const PostEditor = ({ postData, isEdit = false }: PostEditorProps) => {
   const router = useRouter();
 
+  const { userInfo } = useUserStore();
+
   const [title, setTitle] = useState(postData?.title || '');
   const [content, setContent] = useState(postData?.content || '');
-  const [userId, setUserId] = useState(postData?.user_id || '');
-  const [userNickname, setUserNickname] = useState(postData?.userNickname || '');
-
-  useEffect(() => {
-    if (!isEdit) {
-      getUserInfo();
-    }
-  }, [isEdit]);
-
-  const getUserInfo = async () => {
-    const { data } = await browserClient.auth.getUser();
-
-    const getUserNickname = await data.user?.user_metadata.nickname;
-    const getUserId = await data.user?.user_metadata.sub;
-
-    setUserNickname(getUserNickname);
-    setUserId(getUserId);
-  };
 
   const editorRef = useRef<Editor>(null);
 
   const handleEditorChange = () => {
     const contentData = editorRef.current?.getInstance().getHTML();
+
     setContent(contentData);
   };
 
@@ -61,8 +47,8 @@ const PostEditor = ({ postData, isEdit = false }: PostEditorProps) => {
       title,
       content,
       date: new Date().toISOString(),
-      user_id: userId,
-      userNickname: userNickname
+      user_id: userInfo.id,
+      userNickname: userInfo.nickname
     };
 
     const { data, error } = await browserClient.from('Post').insert(newPost).select();
