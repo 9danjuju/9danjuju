@@ -4,27 +4,29 @@ import { useGetPositionQuery } from '@/hooks/useGetPositionQuery';
 import { PlayerInfoType, PlayerMatchDetailType, SpidPlayerType, SppositionType } from '@/types/matchType';
 import PlayerImage from './PlayerImage';
 import { useState } from 'react';
+import Field from '@/app/api/Field/page';
+
+export const getPlayerName = (spId: number, playerNames: SpidPlayerType[] | undefined) => {
+  if (!playerNames) return;
+  const player = playerNames.find((pl) => Number(pl.id) === Number(spId));
+  return player ? player.name.split(/[\s-]+/).pop() : '선수 이름 없음';
+};
+
+// 매치 디테일 데이터의 spPosition으로 선수 포지션 가져오기
+export const getPlayerPosition = (spPosition: number, playerPosition: SppositionType[] | undefined) => {
+  if (!playerPosition) return;
+  const positionName = playerPosition.find((pp) => pp.spposition === spPosition);
+  return positionName ? positionName.desc : '포지션 이름 없음';
+};
 
 const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
   const { data: playerPosition } = useGetPositionQuery();
   const { data: playerNames } = useGetPlayersNameQuery();
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerInfoType | null>(null);
 
   // 매치 디테일 데이터의 spId로 선수 이름 가져오기
-  const getPlayerName = (spId: number, playerNames: SpidPlayerType[] | undefined) => {
-    if (!playerNames) return;
-    const player = playerNames.find((pl) => Number(pl.id) === Number(spId));
-    return player ? player.name.split(/[\s-]+/).pop() : '선수 이름 없음';
-  };
-
-  // 매치 디테일 데이터의 spPosition으로 선수 포지션 가져오기
-  const getPlayerPosition = (spPosition: number, playerPosition: SppositionType[] | undefined) => {
-    if (!playerPosition) return;
-    const positionName = playerPosition.find((pp) => pp.spposition === spPosition);
-    return positionName ? positionName.desc : '포지션 이름 없음';
-  };
 
   // 모달 열기
   const openModal = (player: PlayerInfoType) => {
@@ -40,7 +42,8 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
 
   return (
     <>
-      <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
+    {/* 선수정보 */}
+      {/* <div className="flex flex-row justify-center items-center m-2 p-5 gap-2 text-xl max-w-7xl w-full mx-auto">
         {data.map((info, index) => (
           <div
             key={index}
@@ -48,7 +51,6 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
               index === 0 ? 'items-start' : 'items-end border-l-2'
             }`}
           >
-            {/* 선수목록 */}
             {info.player
               .filter((player) => player.status.spRating > 0)
               .map((player, playerIndex) => (
@@ -64,7 +66,9 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
               ))}
           </div>
         ))}
-      </div>
+      </div> */}
+      {/* 필드 */}
+      <Field matchInfo={data} playerNames={playerNames} playerPosition={playerPosition} openModal={openModal} />
       {/* 모달 */}
       {isModalOpen && selectedPlayer && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={closeModal}>

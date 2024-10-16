@@ -1,10 +1,21 @@
 'use client';
 
+import { User, useUserStore } from '@/userStore';
 import browserClient from '@/utils/supabase/client';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-const Nickname = ({ nickname, setNickname }: { nickname: string; setNickname: Dispatch<SetStateAction<string>> }) => {
+const Nickname = ({
+  nickname,
+  setNickname,
+  userInfo
+}: {
+  nickname: string;
+  setNickname: Dispatch<SetStateAction<string>>;
+  userInfo: User;
+}) => {
   const [input, setInput] = useState('');
+
+  const { login } = useUserStore();
 
   // auth 닉네임 변경
   const handleSubmit = async (inputName: string) => {
@@ -12,6 +23,7 @@ const Nickname = ({ nickname, setNickname }: { nickname: string; setNickname: Di
       const { data } = await browserClient.auth.updateUser({
         data: { nickname: inputName }
       });
+      login({ ...userInfo, nickname: input });
       setNickname(input);
       alert('닉네임이 수정되었습니다.');
       return data;

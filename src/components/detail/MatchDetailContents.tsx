@@ -34,22 +34,22 @@ const MatchDetailContents = ({ matchInfo }: { matchInfo: PlayerMatchDetailType[]
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex items-center justify-between m-2 px-10 gap-5 text-xl max-w-3xl w-full mx-auto">
+    <div className="flex flex-col justify-center items-center bg-white">
+      <div className="text-black flex items-center justify-between m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
         {Object.entries(DETAIL_BUTTONS).map(([key, value]) => {
-          const isActive = key === detailType;
+          const isActive = detailType === key;
           return (
             <button
               key={key}
               onClick={() => handleDetailTypeButton(key as DetailButtonsKeysType)}
-              className={`${isActive ? 'bg-black text-white' : 'bg-gray-300 text-black'} rounded-md w-1/4 h-10`}
+              className={`${isActive ? `bg-black text-white` : 'bg-gray-300 text-black'} w-[200px] h-[30px]`}
             >
               {value}
             </button>
           );
         })}
       </div>
-      <div className="w-full border-2 border-solid rounded-md border-gray-500 flex flex-col justify-center items-center">
+      <div className="w-full flex flex-col justify-center items-center">
         {detailType === 'rate' ? (
           <MatchRateDetail data={matchInfo} />
         ) : (
