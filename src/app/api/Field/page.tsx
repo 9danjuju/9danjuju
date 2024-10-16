@@ -1,5 +1,3 @@
-import { SppositionType } from '@/types/matchType';
-
 const Field = () => {
   return (
     <>
