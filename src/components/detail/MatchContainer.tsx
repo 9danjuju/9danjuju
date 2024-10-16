@@ -5,12 +5,16 @@ import { Accordion } from '@radix-ui/react-accordion';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import MatchAccordion from './MatchAccordion';
+import LoadingSpinner from '../LoadingSpinner';
 
 const MatchContainer = () => {
   const [matchType, setMatchType] = useState<number>(50);
   const params = useParams();
 
-  const { data, fetchNextPage, hasNextPage } = useGetMatchIdQueryInfiniteQuery(params.nickname as string, matchType);
+  const { data, fetchNextPage, hasNextPage, isLoading } = useGetMatchIdQueryInfiniteQuery(
+    params.nickname as string,
+    matchType
+  );
   const allMatches = data?.pages.flat() || [];
 
   const handleMatchType = (matchType: number) => {
@@ -34,13 +38,20 @@ const MatchContainer = () => {
           감독모드
         </span>
       </nav>
-      {allMatches.map((element) => {
-        return (
-          <Accordion key={element} type="single" collapsible className="w-full">
-            <MatchAccordion id={element} />
-          </Accordion>
-        );
-      })}
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          {allMatches.map((element) => {
+            return (
+              <Accordion key={element} type="single" collapsible className="w-full">
+                <MatchAccordion id={element} />
+              </Accordion>
+            );
+          })}
+        </>
+      )}
+
       {hasNextPage ? (
         <button onClick={handleLoadMore} className="bg-gray-300 text-white max-w-3xl w-full mx-auto p-3">
           더보기
