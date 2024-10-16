@@ -15,7 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body
+        className="text-white"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+        url(/img/homeBackgroundImage.jpg)`
+        }}
+      >
         <Providers>
           <Header />
           {children}
