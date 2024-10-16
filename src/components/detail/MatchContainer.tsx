@@ -27,7 +27,7 @@ const MatchContainer = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
-      <nav className="bg-yellow-400 flex items-center m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
+      <nav className="flex items-center m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
         <span onClick={() => handleMatchType(50)} className={`${matchType === 50 ? 'font-bold' : ''} cursor-pointer`}>
           공식경기
         </span>
