@@ -1,8 +1,8 @@
-import { serverClient } from '@/utils/supabase/server';
+import browserClient from '@/utils/supabase/client';
 import Link from 'next/link';
 
 const HomeCommunityList = async () => {
-  const { data } = await serverClient.from('Post').select().order('date', { ascending: false }).range(0, 2);
+  const { data } = await browserClient.from('Post').select().order('date', { ascending: false }).range(0, 2);
 
   return (
     <div className="flex flex-col">

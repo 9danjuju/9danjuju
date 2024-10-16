@@ -107,6 +107,7 @@ const Field = ({ matchInfo, playerNames, playerPosition, openModal }: FieldProps
             (player, index) =>
               player && (
                 <button
+                  key={index}
                   className="absolute transform  text-white p-2 rounded"
                   style={mapPosition[index]}
                   onClick={() => player && openModal(player)}
@@ -127,6 +128,7 @@ const Field = ({ matchInfo, playerNames, playerPosition, openModal }: FieldProps
             (player, index) =>
               player && (
                 <button
+                  key={index}
                   className="absolute transform  text-white p-2 rounded"
                   style={mapPositionRight[index]}
                   onClick={() => player && openModal(player)}
