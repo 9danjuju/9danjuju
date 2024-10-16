@@ -10,7 +10,7 @@ const UserInfoBox = async ({ nickname }: { nickname: string }) => {
         <div className="flex justify-center items-center w-full">
           <div className="flex flex-col items-center justify-center w-1/5">
             <Image src={'/img/anonPlayerImage.png'} width={100} height={100} alt="profile" />
-            <h1 className="text-4xl text-black  font-extrabold z-50">{userData.nickname}</h1>
+            <h1 className="text-4xl text-black  font-extrabold">{userData.nickname}</h1>
             <p className="text-lg">Level: {userData.level}</p>
           </div>
 
