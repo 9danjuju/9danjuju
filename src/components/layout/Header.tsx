@@ -19,7 +19,7 @@ const Header = () => {
     }
   };
   return (
-    <div className="w-full h-24 flex justify-between items-center px-10">
+    <div className="w-full h-24 flex justify-between items-center px-10 fixed top-0 z-50 bg-[#0a1215]">
       <div className="flex justify-center items-center w-2/4">
         <p className="font-bold w-1/2 text-3xl">
           <Link href="/">구단주주총회</Link>
