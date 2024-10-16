@@ -18,25 +18,28 @@ const Page = () => {
   // store 유저정보
   const { userInfo } = useUserStore();
 
+  const getStoreUser = async () => {
+    const userNickname = userInfo.nickname as string;
+    setNickname(userNickname);
+  };
+
+  // 피파 유저정보
+  const getFcUser = async () => {
+    const fcUserData = await fetch9danju(nickname);
+    setfcUser(fcUserData);
+  };
+
+  // 피파 유저 등급정보
+  const getRate = async () => {
+    const rateInfo = await fetchRate(nickname);
+    setRate(rateInfo);
+  };
+
   useEffect(() => {
-    const getStoreUser = async () => {
-      const userNickname = userInfo.nickname as string;
-      setNickname(userNickname);
-    };
     getStoreUser();
   }, [userInfo]);
 
   useEffect(() => {
-    const getFcUser = async () => {
-      const fcUserData = await fetch9danju(nickname);
-      setfcUser(fcUserData);
-    };
-    const getRate = async () => {
-      const rateInfo = await fetchRate(nickname);
-      setRate(rateInfo);
-      // console.log(rateInfo);
-    };
-
     getFcUser();
     getRate();
   }, [nickname]);
