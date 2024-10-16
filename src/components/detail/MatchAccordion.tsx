@@ -1,4 +1,5 @@
 'use client';
+import { utcTimeToKstConverter } from '@/utils/utcTimeToKstConverter';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import MatchDetailContents from './MatchDetailContents';
 import { useMatchDetailDataQuery } from '@/hooks/useMatchDetailDataQuery';
@@ -26,7 +27,7 @@ const MatchAccordion = ({ id }: { id: string }) => {
           </span>
           <span className="w-1/3 text-left">{data.matchInfo[1].nickname}</span>
         </div>
-        <span className="text-xs">{new Date(data.matchDate).toLocaleString('ko-KR')}</span>
+        <span className="text-xs">{utcTimeToKstConverter(data.matchDate)}</span>
       </AccordionTrigger>
       <AccordionContent>
         <MatchDetailContents matchInfo={data.matchInfo} />

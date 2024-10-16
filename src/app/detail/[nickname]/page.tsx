@@ -1,5 +1,6 @@
 import MatchContainer from '@/components/detail/MatchContainer';
 import { getFifaUserInfo } from '@/utils/server-action';
+import { utcTimeToKstConverter } from '@/utils/utcTimeToKstConverter';
 
 interface ParamsType {
   nickname: string;
@@ -24,7 +25,7 @@ const Detail = async ({ params }: { params: ParamsType }) => {
                     <p>
                       {division.matchType}: {division.division}
                     </p>
-                    <p>최고 티어 달성일: {new Date(division.achievementDate).toLocaleString('ko-KR')}</p>
+                    <p>최고 티어 달성일: {utcTimeToKstConverter(division.achievementDate)}</p>
                   </div>
                 );
               })}
