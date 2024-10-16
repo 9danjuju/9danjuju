@@ -42,7 +42,7 @@ const Nickname = ({
         <label>닉네임</label> <br />
         <input
           placeholder={nickname || ''}
-          className="p-2 border-2"
+          className="p-2 border-2 text-black"
           value={input}
           onChange={(e) => {
             setInput(e.target.value);

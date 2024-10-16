@@ -16,7 +16,11 @@ const MatchAccordion = ({ id }: { id: string }) => {
     <AccordionItem value="item-1">
       <AccordionTrigger
         className={`flex flex-row justify-between items-center m-2 p-2  text-white w-full mx-auto ${
-          myMatchResult === '승' ? 'bg-blue-500' : myMatchResult === '패' ? 'bg-red-500' : 'bg-gray-500'
+          myMatchResult === '승'
+            ? 'bg-blue-500/50 border-l-8 border-blue-500'
+            : myMatchResult === '패'
+            ? 'bg-red-500/50 border-l-8 border-red-500'
+            : 'bg-gray-500/50 border-l-8 border-gray-500'
         }`}
       >
         <span className="font-bold text-4xl">{myMatchResult}</span>

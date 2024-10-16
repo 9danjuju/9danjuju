@@ -73,7 +73,7 @@ const MatchRateDetail = ({ data }: { data: PlayerMatchDetailType[] }) => {
       {isModalOpen && selectedPlayer && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={closeModal}>
           <div
-            className="bg-white p-4 rounded shadow-lg w-1/6  text-black text-center"
+            className="bg-white p-4 rounded shadow-lg w-1/3  text-black text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-row items-center justify-center mb-5 ">
