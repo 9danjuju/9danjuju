@@ -34,15 +34,17 @@ const MatchDetailContents = ({ matchInfo }: { matchInfo: PlayerMatchDetailType[]
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-white">
-      <div className="text-black flex items-center justify-between m-2 p-5 gap-2 text-xl max-w-3xl w-full mx-auto">
+    <div className={`flex flex-col justify-center items-center ${detailType === 'rate' ? '' : 'bg-white/85'}`}>
+      <div className="text-black flex items-center justify-around  text-xl w-full border-b-[1px] border-zinc-400">
         {Object.entries(DETAIL_BUTTONS).map(([key, value]) => {
           const isActive = detailType === key;
           return (
             <button
               key={key}
               onClick={() => handleDetailTypeButton(key as DetailButtonsKeysType)}
-              className={`${isActive ? `bg-black text-white` : 'bg-gray-300 text-black'} w-[200px] h-[30px]`}
+              className={`${
+                isActive ? `bg-zinc-900 text-white font-semibold` : 'bg-gray-300 text-black'
+              } w-1/4 h-[55px]`}
             >
               {value}
             </button>

@@ -25,7 +25,7 @@ const SearchBar = ({ className, type }: SearchBarType) => {
       <input
         type="text"
         placeholder="구단주명을 입력해주세요."
-        className={`w-full h-full focus:outline-none bg-inherit rounded-full ${
+        className={`w-full h-full focus:outline-none bg-transparent rounded-full placeholder:text-white ${
           type === 'contents' ? 'text-3xl' : 'text-sm'
         }`}
         value={name}

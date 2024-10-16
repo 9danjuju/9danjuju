@@ -104,14 +104,19 @@ const AuthForm = ({ mode }: PageType) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-5">
             <label htmlFor="email">이메일</label>
-            <input className="w-full h-12 px-5 border-2" type="text" {...register('email')} placeholder="이메일" />
+            <input
+              className="w-full h-12 px-5 border-2 text-black"
+              type="text"
+              {...register('email')}
+              placeholder="이메일"
+            />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message as string}</p>}
           </div>
           <div className="mb-5">
             <label htmlFor="password">비밀번호</label>
             <input
               type="password"
-              className="w-full h-12 p-5 border-2"
+              className="w-full h-12 p-5 border-2 text-black"
               {...register('password')}
               placeholder="비밀번호"
             />
@@ -122,7 +127,7 @@ const AuthForm = ({ mode }: PageType) => {
             <div className="mb-5">
               <label htmlFor="nickname">닉네임</label>
               <input
-                className="w-full h-12 p-5 border-2"
+                className="w-full h-12 p-5 border-2 text-black"
                 type="text"
                 {...register('nickname')}
                 placeholder="닉네임(구단주명)"

@@ -51,7 +51,7 @@ const DetailGraph = ({ data, type }: GraphDetailType) => {
                 width: value.percentage === 0 ? '100%' : value.percentage < 30 ? '30%' : `${value.percentage}%`
               }}
             >
-              <p className="">
+              <p className="p-2">
                 {value.content} ({value.percentage}%)
               </p>
             </div>
@@ -61,7 +61,7 @@ const DetailGraph = ({ data, type }: GraphDetailType) => {
       <div className="mx-8 text-center flex flex-col gap-5 w-1/2 text-black">
         {LIST[type].map((element) => {
           return (
-            <p className="text-md w-full h-[30px]" key={element}>
+            <p className="text-lg w-full h-[30px] font-semibold" key={element}>
               {element}
             </p>
           );
@@ -77,7 +77,7 @@ const DetailGraph = ({ data, type }: GraphDetailType) => {
                 width: value.percentage === 0 ? '100%' : value.percentage < 30 ? '30%' : `${value.percentage}%`
               }}
             >
-              <p>
+              <p className="p-2">
                 ({value.percentage}%) {value.content}
               </p>
             </div>
