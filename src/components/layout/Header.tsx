@@ -7,12 +7,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useUserStore } from '@/userStore';
 
 const Header = () => {
-  const { userInfo } = useUserStore();
+  const { userInfo, logout } = useUserStore();
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = async () => {
     const { error } = await browserClient.auth.signOut();
     router.replace('/login');
+    logout();
     if (error) {
       console.error(error);
     }
