@@ -58,7 +58,7 @@ const DetailGraph = ({ data, type }: GraphDetailType) => {
           );
         })}
       </div>
-      <div className="mx-8 text-center flex flex-col gap-5 w-1/2">
+      <div className="mx-8 text-center flex flex-col gap-5 w-1/2 text-black">
         {LIST[type].map((element) => {
           return (
             <p className="text-md w-full h-[30px]" key={element}>

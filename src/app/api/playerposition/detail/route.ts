@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET() {
   const FIFA_API_KEY = process.env.NEXT_PUBLIC_FIFA_API_KEY as string;
 
   if (!FIFA_API_KEY) {
@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
   const apiUrlString = `https://open.api.nexon.com/static/fconline/meta/spposition.json`;
   try {
-    const res = await fetch(apiUrlString, { cache: 'no-store' });
+    const res = await fetch(apiUrlString);
 
     if (res.ok) {
       const playerPositionData = await res.json();
