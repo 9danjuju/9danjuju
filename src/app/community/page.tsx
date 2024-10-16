@@ -1,7 +1,7 @@
 import CommunityList from '@/components/community/CommunityList';
 import CommunityActionButton from '@/components/community/CommunityActionButton';
 
-const Communitypage = async () => {
+const Communitypage = () => {
   return (
     <div className="w-full">
       <section className="flex flex-col justify-center mx-auto max-w-[1400px] mt-10">
