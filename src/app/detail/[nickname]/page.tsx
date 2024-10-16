@@ -20,7 +20,7 @@ const Detail = async ({ params }: { params: ParamsType }) => {
             <div className="flex flex-col justify-center items-center">
               {userData.maxDivision.map((division) => {
                 return (
-                  <div key={division.achievementDate}>
+                  <div key={division.achievementDate} className="my-5">
                     <p>
                       {division.matchType}: {division.division}
                     </p>
