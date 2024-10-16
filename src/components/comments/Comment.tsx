@@ -118,9 +118,9 @@ const Comment = () => {
   };
 
   return (
-    <div className=" w-full px-10 bg-neutral-100 p-2 grid place-items-center">
+    <div className=" w-full px-10  p-2 grid place-items-center text-black">
       <div>
-        <h1 className="text-start">댓글 {comments.length}</h1>
+        <h1 className="text-start text-white">댓글 {comments.length}</h1>
         <div className="flex items-center mb-5 mt-2">
           {userId ? (
             <>
@@ -132,7 +132,7 @@ const Comment = () => {
                   setComment(e.target.value);
                 }}
               />
-              <button className="w-[100px] h-[100px] border border-spacing-1 px-4" onClick={onSumbitHandler}>
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4 text-white" onClick={onSumbitHandler}>
                 댓글 입력
               </button>
             </>
@@ -142,7 +142,7 @@ const Comment = () => {
                 className="w-[900px] h-[100px] border border-spacing-1 resize-none"
                 placeholder="로그인 후 작성 가능합니다."
               />
-              <button className="w-[100px] h-[100px] border border-spacing-1 px-4">로그인</button>
+              <button className="w-[100px] h-[100px] border border-spacing-1 px-4 text-white">로그인</button>
             </>
           )}
         </div>
