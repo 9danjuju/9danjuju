@@ -53,7 +53,7 @@ const MatchContainer = () => {
       )}
 
       {hasNextPage ? (
-        <button onClick={handleLoadMore} className="bg-gray-300 text-white max-w-3xl w-full mx-auto p-3">
+        <button onClick={handleLoadMore} className="bg-gray-300 text-white  w-full mx-auto p-3">
           더보기
         </button>
       ) : null}

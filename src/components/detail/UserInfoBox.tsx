@@ -5,7 +5,7 @@ import Image from 'next/image';
 const UserInfoBox = async ({ nickname }: { nickname: string }) => {
   const userData = await getFifaUserInfo(nickname);
   return (
-    <div className="bg-gray-200 flex justify-center items-center m-2 p-5 max-w-3xl w-full mx-auto">
+    <div className="bg-gray-200 flex justify-center items-center m-2 p-5 max-w-[1440px] w-full mx-auto">
       {userData ? (
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-col items-center justify-center w-1/2">
