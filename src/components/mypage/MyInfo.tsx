@@ -18,10 +18,10 @@ const MyInfo = ({
             {rate?.map((type) => {
               return (
                 <div key={type.matchType} className="relative group ">
-                  <div className="rounded-md text-sm p-[2px] bg-gradient-to-r from-sky-500 to-indigo-500 text-white">
+                  <div className="rounded-md text-sm px-[6px] py-[2px] bg-gradient-to-r from-sky-500 to-indigo-500 text-white">
                     {type.matchType}
                   </div>
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden p-2 bg-orange-200 border-[1px] group-hover:block w-36 rounded-md font-semibold bg-indigo-200">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden p-2 bg-black/50 border-[1px] group-hover:block w-36 rounded-md font-semibold bg-indigo-200">
                     <div>{`등급: ${type.division}`}</div>
                     <div>{`달성일: ${type.achievementDate}`}</div>
                   </div>
