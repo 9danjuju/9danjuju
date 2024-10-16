@@ -1,81 +1,55 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Tables } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
 import Post from './Post';
 import PostsTable from './PostsTable';
-
-// interface Post {
-//   id: string;
-//   title: string;
-//   date: string;
-//   content: string;
-//   userNickname: string;
-//   user_id: string;
-// }
-
-type PostArray = Tables<'Post'>;
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 const MyPostsList = () => {
-  const [posts, setPosts] = useState<PostArray[]>([]);
-  const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const getPosts = async ({ pageParam = 0 }) => {
+    try {
+      const user = await browserClient.auth.getUser();
+      const userId = user.data.user?.id;
 
-  const getPosts = async () => {
-    setLoading(true);
-    const user = await browserClient.auth.getUser();
-    const userId = user.data.user?.id;
+      const { data } = await browserClient
+        .from('Post')
+        .select('*')
+        .eq('user_id', userId || '')
+        .range(pageParam * 5, (pageParam + 1) * 5 - 1);
 
-    const { data, error } = await browserClient
-      .from('Post')
-      .select('*')
-      .eq('user_id', userId || '')
-      .range(page * 5, (page + 1) * 5 - 1);
-    if (error) {
-      console.error(error);
-      return;
+      return data || [];
+    } catch (error) {
+      throw new Error(`Error:${error}`);
     }
-    // console.log('data =>', data);
-
-    setPosts([...posts, ...data]);
-    // console.log('posts =>', posts);
-    setLoading(false);
   };
 
-  useEffect(() => {
-    // getUserInfo();
-    getPosts();
-  }, [page]);
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts,
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.length === 5 ? pages.length : undefined;
+    },
+    initialPageParam: 0
+  });
 
-  const handleLoad = () => {
-    setPage((pre) => pre + 1);
-  };
+  // console.log(data);
+
+  const myPosts = data?.pages.flat() || [];
 
   return (
     <div>
       <PostsTable />
-      {posts.length !== 0 ? (
+      {data?.pages[0].length !== 0 ? (
         <div className="text-center">
           <ul>
-            {posts.map((post) => {
-              const dateString = post.date;
-              const date = new Date(dateString);
+            {myPosts.map((post) => {
+              const date = new Date(post.date);
               const formatDate = date.toLocaleString('ko-KR');
               return <Post key={post.id} formatDate={formatDate} post={post} />;
             })}
           </ul>
-          {loading ? (
-            <p>로딩중</p>
-          ) : (
-            <button
-              onClick={() => {
-                handleLoad();
-              }}
-              className="m-auto"
-            >
-              더보기
-            </button>
-          )}
+          <button onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage} className="m-auto">
+            {isFetchingNextPage ? '로딩중...' : hasNextPage ? '더보기' : '더 이상 게시글이 없습니다'}
+          </button>
         </div>
       ) : (
         <p>게시글이 없습니다.</p>
