@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import browserClient from '@/utils/supabase/client';
 
-import { createUserStore } from '@/userStore';
+import { useUserStore } from '@/userStore';
 
 type PageType = {
   mode: 'login' | 'signup';
@@ -36,7 +36,7 @@ const loginSchema = signUpSchema.omit({ nickname: true });
 
 const AuthForm = ({ mode }: PageType) => {
   const router = useRouter();
-  const { login } = createUserStore();
+  const { login } = useUserStore();
 
   const schema = mode === 'signup' ? signUpSchema : loginSchema;
   const {

@@ -10,10 +10,9 @@ export type UserStore = {
 };
 
 export const defaultState = { id: '', nickname: '', email: '', created_at: '' };
-export type UserStore2 = ReturnType<typeof createUserStore>;
 
 // zustand 스토어 생성
-export const createUserStore = create(
+export const useUserStore = create(
   persist<UserStore>(
     (set) => ({
       // user 초기값

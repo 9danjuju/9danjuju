@@ -4,7 +4,7 @@ import browserClient from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { Tables } from '../../../database.types';
 import { useParams } from 'next/navigation';
-import { createUserStore } from '@/userStore';
+import { useUserStore } from '@/userStore';
 
 // useState 타입
 type CommentType = Tables<'Comments'>;
@@ -19,31 +19,23 @@ const Comment = () => {
   const [editComment, setEditComment] = useState<string>('');
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  // store에서 user 정보 불러오기
+  const { userInfo } = useUserStore();
+
   // post ID 불러오기
   const params = useParams();
   const postId = params.id as string;
 
-  // 현재 유저 정보(zustand 사용 전)
+  // 현재 유저 정보
   const getUserInfo = async () => {
-    const { data } = await browserClient.auth.getUser();
-    const getUserNickname = await data.user?.user_metadata.nickname;
-    const getUserId = await data.user?.user_metadata.sub;
+    const getUserNickname = userInfo.nickname as string;
+    const getUserId = userInfo.id;
 
     setUserNickname(getUserNickname);
     setUserId(getUserId);
+
+    getComments();
   };
-
-  // =====================================================================
-  // 현재 유저 정보(zustand 받아오기 진행 중)
-  // const { userInfo } = createUserStore();
-
-  // const getUserNickname = userInfo.nickname as string;
-  // const getUserId = userInfo.id;
-
-  // console.log('userInfo => ', userInfo);
-  // console.log('id => ', userInfo.id);
-  // console.log('nickname => ', userInfo.nickname);
-  // console.log('email => ', userInfo.email);
 
   // 댓글 조회
   const getComments = async () => {
@@ -58,8 +50,11 @@ const Comment = () => {
   };
 
   useEffect(() => {
-    getComments();
     getUserInfo();
+  }, [userInfo]);
+
+  useEffect(() => {
+    getComments();
   }, []);
 
   // 댓글 추가
