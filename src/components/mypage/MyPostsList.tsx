@@ -14,6 +14,7 @@ const MyPostsList = () => {
         .from('Post')
         .select('*')
         .eq('user_id', userId || '')
+        .order('date', { ascending: false })
         .range(pageParam * 5, (pageParam + 1) * 5 - 1);
 
       return data || [];
