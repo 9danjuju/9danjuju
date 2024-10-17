@@ -2,9 +2,9 @@
 
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
-import { Tables, TablesInsert, TablesUpdate } from '../../../database.types';
+import { TablesInsert, TablesUpdate } from '../../../database.types';
 import browserClient from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/userStore';
@@ -12,7 +12,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
 export interface PostEditorProps {
-  postData: Tables<'Post'> | null;
+  postData: string;
   isEdit: boolean;
 }
 
@@ -21,10 +21,43 @@ const PostEditor = ({ postData, isEdit }: PostEditorProps) => {
 
   const { userInfo } = useUserStore();
 
-  const [title, setTitle] = useState(postData?.title || '');
-  const [content, setContent] = useState(postData?.content || '');
+  useEffect(() => {
+    getPost();
+  }, []);
+  const getPost = async () => {
+    const { data } = await browserClient.from('Post').select().eq('id', postData).single();
+
+    setPost(data);
+  };
+
+  const [post, setPost] = useState<{
+    content: string;
+    date: string;
+    id: string;
+    title: string;
+    user_id: string;
+    userNickname: string | null;
+  } | null>(null);
+  console.log('post.title', post?.title);
+  console.log('post.cnt', post?.content);
+
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    if (post) {
+      setTitle(post.title);
+      setContent(post.content);
+    }
+  }, [post]);
 
   const editorRef = useRef<Editor>(null);
+
+  useEffect(() => {
+    if (editorRef.current && content) {
+      editorRef.current.getInstance().setHTML(content);
+    }
+  }, [content]);
 
   const handleEditorChange = () => {
     const contentData = editorRef.current?.getInstance().getHTML();
@@ -35,14 +68,17 @@ const PostEditor = ({ postData, isEdit }: PostEditorProps) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isEdit && postData?.id) {
+    if (isEdit && post?.id) {
       const updatePost: TablesUpdate<'Post'> = {
         title,
         content,
         date: new Date().toISOString()
       };
-      const { data } = await browserClient.from('Post').update(updatePost).eq('id', postData?.id);
-      if (data) router.push(`/community/${postData.id}`);
+
+      await browserClient.from('Post').update(updatePost).eq('id', post.id);
+
+      router.push(`/community/${post.id}`);
+      return;
     }
 
     const newPost: TablesInsert<'Post'> = {
@@ -80,7 +116,7 @@ const PostEditor = ({ postData, isEdit }: PostEditorProps) => {
         className="text-black"
       />
       <Editor
-        initialValue={postData?.content || ' '} // 초기값
+        initialValue={content || ' '} // 초기값
         height="400px" // 높이
         initialEditType="wysiwyg" // 초기 편집 유형
         useCommandShortcut={true} // 키보드 단축기 사용 여부
